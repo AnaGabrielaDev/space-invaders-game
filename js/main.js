@@ -23,35 +23,42 @@ let impactoLaserX;
 let laserMovendo;
 let intervalo = 10;
 let posicao = 0;
+let endGame = false;
 
 let alienLinhas = [10, 38, 66, 94, 122, 150, 178, 206, 234, 262, 290];
 let alienColunas = [55, 85, 115, 145, 175];
 let aliensRestantes = [];
 
+let moveAlienInterval;
+
 const C_ALTURA = 600;
 const C_LARGURA = 400;
 
-const TECLA_ESQUERDA = 37;
-const TECLA_DIREITA = 39;
-const TECLA_ACIMA = 38;
+onkeydown = ({keyCode}) => {
+    if(SPACE_BAR == keyCode && endGame === true) {
+        console.log(c);
+        c.restore();
+        return iniciar()
+    }
 
-onkeydown = moverCanhao; // Define função chamada ao se pressionar uma tecla
+    moverCanhao(keyCode); // Define função chamada ao se pressionar uma tecla
+}
 
 iniciar(); // Chama função inicial do jogo
 
-
 // Sub-rotinas (funções)
 function iniciar() {
+    endGame = false;
     tela = document.getElementById("tela");
     c = tela.getContext("2d");
 	
-	c.fillStyle = "black";
-	c.fillRect(0, 0, C_LARGURA, C_ALTURA);
+    c.fillStyle = "black";
+	c.fillRect(0, 0, tela.width, tela.height);
 
     posicionarAlien();
     carregarImagens();
 
-	setInterval("moverAliens()", intervalo);
+	moveAlienInterval = setInterval("moverAliens()", intervalo);
     setInterval("alienAtingido()", 6);
 }    
 
@@ -64,7 +71,7 @@ function posicionarAlien() {
                 foiAtingido : false
 			};
 			
-            aliensRestantes[aliensRestantes.length] = novoAlien;
+            aliensRestantes.push(novoAlien)
         }
     }
 }    
@@ -84,17 +91,18 @@ function carregarImagens() {
 }
 
 function moverAliens(){
-        if (posicao <= 65){
+    console.log(posicao)
+        if (posicao <= 550){
             alienX += 1;
             posicao += 1;
-        } else if ((posicao > 65) && (posicao <= 80)){
+        } else if ((posicao > 550) && (posicao <= 580)){
             alienX += 1;
             alienY += 1
             posicao += 1;            
-        } else if ((posicao > 80) && (posicao <= 147)){
+        } else if ((posicao > 580) && (posicao <= 1130)){
             alienX -= 1;
             posicao += 1;
-        } else if ((posicao > 147) && (posicao < 162)){
+        }else if ((posicao > 1130) && (posicao < 1160)){
             alienX -= 1;
             alienY += 1;
             posicao += 1;
@@ -102,31 +110,34 @@ function moverAliens(){
             posicao = 0;
         }
         
-        for (var i = 0; i < aliensRestantes.length; i++){
-            if (!aliensRestantes[i].foiAtingido){
-                c.fillRect((alienX + aliensRestantes[i].posX - 1), (alienY + aliensRestantes[i].posY - 1), 20, 25);
-                c.drawImage(alien, (alienX + aliensRestantes[i].posX), (alienY + aliensRestantes[i].posY));
-				
-                if ((aliensRestantes[i].posY + alienY + 23) >= 530){
-                    fimDeJogo();
-                }
+        for(const currentAlien of aliensRestantes){
+            if (currentAlien.foiAtingido) continue;
+
+            c.fillRect((alienX + currentAlien.posX - 1), (alienY + currentAlien.posY - 1), 20, 25);
+            c.drawImage(alien, (alienX + currentAlien.posX), (alienY + currentAlien.posY));
+            
+            if ((currentAlien.posY + alienY + 23) >= 530){
+                return fimDeJogo();
             }
         }
 }
 
 function alienAtingido(){
-    for(var i = 0; i < aliensRestantes.length; i++){
-        if ((laserY >= (alienY + aliensRestantes[i].posY)) && (laserY <= (alienY + aliensRestantes[i].posY + 20)) && 
-            (impactoLaserX >= (alienX + aliensRestantes[i].posX - 5)) && (impactoLaserX <= (alienX + aliensRestantes[i].posX + 18))){
-            if (!aliensRestantes[i].foiAtingido){
-                c.fillStyle = "black";
-                c.fillRect((alienX + aliensRestantes[i].posX - 1), (alienY + aliensRestantes[i].posY - 1), 20, 25);
-                aliensRestantes[i].foiAtingido = true;
-                c.fillRect(impactoLaserX, laserY, 6, 19);
-                laserY = 0;
-            }
+    for(const currentAlien of aliensRestantes) {
+        if (
+            (laserY >= (alienY + currentAlien.posY)) 
+            && (laserY <= (alienY + currentAlien.posY + 20)) 
+            && (impactoLaserX >= (alienX + currentAlien.posX - 5)) 
+            && (impactoLaserX <= (alienX + currentAlien.posX + 18))
+            && !currentAlien.foiAtingido
+        ){
+            c.fillStyle = "black";
+            c.fillRect((alienX + currentAlien.posX - 1), (alienY + currentAlien.posY - 1), 20, 25);
+            currentAlien.foiAtingido = true;
+            c.fillRect(impactoLaserX, laserY, 6, 19);
+            laserY = 0;
         }
-    }    
+    }
 }
 
 function fimDeJogo(){
@@ -146,6 +157,9 @@ function fimDeJogo(){
     c.font = "16px Arial";
     c.fillStyle = "white";
     c.fillText("Fim de Jogo", C_LARGURA/2, C_ALTURA/2);
+    
+    c.fillText("Press space to restart", C_LARGURA / 2, (C_ALTURA / 2) + 30)
+    endGame = true;
 
-    onkeydown = null;
+    clearInterval(moveAlienInterval);
 }
