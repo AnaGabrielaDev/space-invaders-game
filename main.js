@@ -1,5 +1,3 @@
-<canvas id="tela" width="400" height="600"></canvas>
-<script>
 // Space Invaders
 // Autor: Ayo Oyewole
 // Adaptado por: Gilson Pereira
@@ -7,28 +5,28 @@
 
 // Programa principal
 
-var tela
-var c;
+let tela
+let c;
 
-var canhao;
-var laser;
-var alien;
+let canhao;
+let laser;
+let alien;
 
-var canhaoX = 180;
-var canhaoY = 529;
-var laserX = 193;
-var laserY = 520;
-var alienX = 0;
-var alienY = 0;
-var inicioLaser = false;
-var impactoLaserX;
-var laserMovendo;
-var intervalo = 10;
-var posicao = 0;
+let canhaoX = 180;
+let canhaoY = 529;
+let laserX = 193;
+let laserY = 520;
+let alienX = 0;
+let alienY = 0;
+let inicioLaser = false;
+let impactoLaserX;
+let laserMovendo;
+let intervalo = 10;
+let posicao = 0;
 
-var alienLinhas = [10, 38, 66, 94, 122, 150, 178, 206, 234, 262, 290];
-var alienColunas = [55, 85, 115, 145, 175];
-var aliensRestantes = [];
+let alienLinhas = [10, 38, 66, 94, 122, 150, 178, 206, 234, 262, 290];
+let alienColunas = [55, 85, 115, 145, 175];
+let aliensRestantes = [];
 
 const C_ALTURA = 600;
 const C_LARGURA = 400;
@@ -74,16 +72,16 @@ function posicionarAlien() {
 
 function carregarImagens() {
     canhao = new Image();
-    canhao.src = "canhao.png";
+    canhao.src = "assets/imgs/canhao.png";
     canhao.onload = function(){
         c.drawImage(canhao, canhaoX, canhaoY);
     }
     
     laser = new Image();
-    laser.src = "laser.png";
+    laser.src = "assets/imgs/laser.png";
     
     alien = new Image();
-    alien.src = "alien.png";
+    alien.src = "assets/imgs/alien.png";
 }
 
 function moverAliens(){
@@ -197,4 +195,3 @@ function dispararLaser(){
         laserY = 520;
     }
 }
-</script>
