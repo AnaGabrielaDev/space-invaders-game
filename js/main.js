@@ -31,8 +31,8 @@ let aliensRestantes = [];
 
 let moveAlienInterval;
 
-const C_ALTURA = 600;
-const C_LARGURA = 400;
+tela = document.getElementById("tela");
+c = tela.getContext("2d");
 
 onkeydown = ({keyCode}) => {
     if(SPACE_BAR == keyCode && endGame === true) {
@@ -49,8 +49,7 @@ iniciar(); // Chama função inicial do jogo
 // Sub-rotinas (funções)
 function iniciar() {
     endGame = false;
-    tela = document.getElementById("tela");
-    c = tela.getContext("2d");
+    
 	
     c.fillStyle = "black";
 	c.fillRect(0, 0, tela.width, tela.height);
@@ -151,14 +150,15 @@ function fimDeJogo(){
     inicioLaser = false;
 	
     c.fillStyle = "black";
-	c.fillRect(0, 0, C_LARGURA, C_ALTURA);
+	c.fillRect(0, 0, tela.width, tela.height);
     
     c.textAlign = "center";
     c.font = "16px Arial";
     c.fillStyle = "white";
-    c.fillText("Fim de Jogo", C_LARGURA/2, C_ALTURA/2);
-    
-    c.fillText("Press space to restart", C_LARGURA / 2, (C_ALTURA / 2) + 30)
+
+    c.fillText("Fim de Jogo", tela.width / 2, tela.height / 2);
+    c.fillText("Press space to restart", tela.width / 2, (tela.height / 2) + 30);
+
     endGame = true;
 
     clearInterval(moveAlienInterval);
