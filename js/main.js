@@ -62,9 +62,9 @@ function iniciar() {
 }    
 
 function posicionarAlien() {
-    for (var i = 0; i < alienLinhas.length; i++){
-        for (var j = 0; j < alienColunas.length; j++){
-            var novoAlien = {
+    for (let i = 0; i < alienLinhas.length; i++){
+        for (let j = 0; j < alienColunas.length; j++){
+            let novoAlien = {
                 posX : alienLinhas[i],
                 posY : alienColunas[j],
                 foiAtingido : false
