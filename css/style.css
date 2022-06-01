@@ -4,9 +4,49 @@
   box-sizing: border-box;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 #tela {
   display: block;
 
   height: 100vh;
   width: 100vw;
+}
+
+h2 {
+  font-family: 'Press Start 2P', cursive;
+}
+
+.divMain {
+  background-color: rgb(162, 127, 228);
+  font-family: fantasy 15px;
+  border-radius: 10px;
+  padding: 120px;
+  width: 800px;
+  margin: auto;
+  margin-top: 25%;
+  box-shadow: 8px 10px 10px rgba(0, 0, 0, 0.438);
+}
+
+#play  {
+  width: 350px;
+  text-align: center;
+  padding: 15px 20px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #FCC302;
+  font-size: 18px;
+}
+
+#initialScreen {
+  background-color: rgb(0, 0, 0);
+}
+
+#nameFiel #play {
+  position: absolute;
+  text-align: center;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 55px;
 }

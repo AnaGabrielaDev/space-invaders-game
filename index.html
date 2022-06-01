@@ -6,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="assets/imgs/alienIcon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Space Invaders</title>
   </head>
-  <body>
-      <canvas id="tela" width="1920" height="1080">O seu broswer não suporta estes elementos :(</canvas>
-    <script src="js/controls.js"></script>
-    <script src="js/main.js"></script>  </body>
+
+  <body id="initialScreen">
+    <div class="divMain">
+      <h2 class="maquina-escrever">Digite o seu nome para embarcar na expedição: </h2> 
+      <input type="text" id="nameField">
+      <button type="submit" onclick="saveName()" id="playButton">Jogar!</button>
+      <div id="players"></div>
+    </div>
+    <script src="js/records.js"></script>
+  </body>
+
 </html>
