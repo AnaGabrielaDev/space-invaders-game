@@ -8,6 +8,9 @@
 let tela
 let contexto;
 
+tela = document.getElementById("tela");
+contexto = tela.getContext("2d");
+
 let canhao;
 let laser;
 let alien;
@@ -16,12 +19,12 @@ let canhaoX = 180;
 let canhaoY = 529;
 let laserX = 193;
 let laserY = 520;
-let alienX = 0;
+let alienX = calculatePositionFromPercent(20);
 let alienY = 0;
 let inicioLaser = false;
 let impactoLaserX;
 let laserMovendo;
-let intervalo = 10;
+let intervalo = 0;
 let posicao = 0;
 let endGame = false;
 
@@ -31,14 +34,11 @@ let aliensRestantes = [];
 
 let moveAlienInterval;
 
-tela = document.getElementById("tela");
-contexto = tela.getContext("2d");
-
 onkeydown = ({keyCode}) => {
+    console.log(keyCode)
     if(SPACE_BAR == keyCode && endGame === true) {
-        console.log(c);
         contexto.restore();
-        return iniciar()
+        return iniciar();
     }
 
     moverCanhao(keyCode); // Define função chamada ao se pressionar uma tecla
@@ -49,7 +49,6 @@ iniciar(); // Chama função inicial do jogo
 // Sub-rotinas (funções)
 function iniciar() {
     endGame = false;
-    
 	
     contexto.fillStyle = "black";
 	contexto.fillRect(0, 0, tela.width, tela.height);
@@ -89,36 +88,57 @@ function carregarImagens() {
     alien.src = "assets/imgs/alien.png";
 }
 
-function moverAliens(){
-    console.log(posicao)
-        if (posicao <= 550){
-            alienX += 1;
-            posicao += 1;
-        } else if ((posicao > 550) && (posicao <= 580)){
-            alienX += 1;
-            alienY += 1
-            posicao += 1;            
-        } else if ((posicao > 580) && (posicao <= 1130)){
-            alienX -= 1;
-            posicao += 1;
-        }else if ((posicao > 1130) && (posicao < 1160)){
-            alienX -= 1;
-            alienY += 1;
-            posicao += 1;
-        } else{
-            posicao = 0;
-        }
-        
-        for(const currentAlien of aliensRestantes){
-            if (currentAlien.foiAtingido) continue;
+function calculatePositionFromPercent(percent) {
+    return Math.floor((tela.width * percent) / 100);
+}
 
-            contexto.fillRect((alienX + currentAlien.posX - 1), (alienY + currentAlien.posY - 1), 20, 25);
-            contexto.drawImage(alien, (alienX + currentAlien.posX), (alienY + currentAlien.posY));
-            
-            if ((currentAlien.posY + alienY + 23) >= 530){
-                return fimDeJogo();
-            }
+function calculatePercent(position) {
+    return Math.floor((position * 100) / tela.width);
+}
+
+let isBacking = false;
+function invertDirection() {
+    isBacking = !isBacking
+    if(!isBacking) 
+        console.log("is not backing")
+    else 
+        console.log("is backing")
+}
+
+function moverAliens(){
+    // alienX = tela.width/2;
+
+    const alienXToPercent = calculatePercent(alienX);
+    if(alienXToPercent % 2 === 0) console.log(alienXToPercent)
+
+    if (alienXToPercent <= 75 && !isBacking){
+        alienX += 1;
+    } else if (alienXToPercent > 75 && alienXToPercent < 80 && !isBacking){
+        alienX += 1;
+        alienY += 1
+        if(alienXToPercent === 79) {
+            invertDirection()
         }
+    } else if (alienXToPercent >= 15 && isBacking){
+        alienX -= 1;
+    }else if (alienXToPercent < 15 && isBacking){
+        alienX -= 1;
+        alienY += 1;
+        if(alienXToPercent === 11) {
+            invertDirection()
+        }
+    }
+    
+    for(const currentAlien of aliensRestantes){
+        if (currentAlien.foiAtingido) continue;
+
+        contexto.fillRect((alienX + currentAlien.posX - 1), (alienY + currentAlien.posY - 1), 20, 25);
+        contexto.drawImage(alien, (alienX + currentAlien.posX), (alienY + currentAlien.posY));
+        
+        if ((currentAlien.posY + alienY + 23) >= 530){
+            return fimDeJogo();
+        }
+    }
 }
 
 function alienAtingido(){
@@ -143,7 +163,7 @@ function fimDeJogo(){
     canhaoX = 180;
     laserX = 193;
     laserY = 520;
-    alienX = 0;
+    alienX = calculatePositionFromPercent(20);
     alienY = 0;
     posicao = 0;
     aliensRestantes = [];

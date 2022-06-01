@@ -4,19 +4,19 @@ const TECLA_DIREITA = 39;
 const TECLA_ACIMA = 38;
 
 function moverCanhao(codigo){
-  if ((codigo == TECLA_DIREITA) && (canhaoX <= 360)){
+  if ((codigo == TECLA_DIREITA) && (canhaoX <= calculatePositionFromPercent(95))){
     contexto.fillStyle = "black";
-    contexto.fillRect(canhaoX, 537, 31, 19);
-    canhaoX += 8;
-    laserX += 8;
+    contexto.fillRect(canhaoX, 500, tela.width, tela.height);
+    canhaoX += 10;
+    laserX += 10;
     contexto.drawImage(canhao, canhaoX, canhaoY);
   }
   
-  if ((codigo == TECLA_ESQUERDA) && (canhaoX >= 9)){
+  if ((codigo == TECLA_ESQUERDA) && (canhaoX >= calculatePositionFromPercent(15))){
     contexto.fillStyle = "black";
-    contexto.fillRect(canhaoX, 537, 31, 19);
-    canhaoX -= 8;
-    laserX -= 8;
+    contexto.fillRect(canhaoX, 500, tela.width, tela.height);
+    canhaoX -= 10;
+    laserX -= 10;
     contexto.drawImage(canhao, canhaoX, canhaoY);
   }
   
@@ -24,13 +24,13 @@ function moverCanhao(codigo){
     inicioLaser = true;
     contexto.drawImage(laser, laserX, laserY);
     impactoLaserX = laserX;
-    laserMovendo = setInterval("dispararLaser()", 5);
+    laserMovendo = setInterval("dispararLaser()", 0);
   }
 }
 
 function dispararLaser(){
   if (inicioLaser && (laserY >= 60)){
-      laserY -= 10;
+      laserY -= 9;
       contexto.fillStyle = "black";
       contexto.fillRect(impactoLaserX, (laserY + 10), 6, 19);
   

@@ -10,15 +10,3 @@
   height: 100vh;
   width: 100vw;
 }
-
-@media (max-width: 1360px) {
-  #tela {
-    aspect-ratio: 800 / 800;
-  }
-}
-
-@media (max-width: 1080px) {
-  #tela {
-    aspect-ratio: 400 / 600;
-  }
-}
