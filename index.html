@@ -14,12 +14,14 @@
 
   <body id="initialScreen">
     <div class="divMain">
-      <h2 class="maquina-escrever">Digite o seu nome para embarcar na expedição: </h2> 
-      <input type="text" id="nameField">
-      <button type="submit" onclick="saveName()" id="playButton">Jogar!</button>
-      <div id="players"></div>
+      <h2 id="typewriter" class="maquina-escrever">Digite o seu nome para embarcar na expedição: </h2> 
+      <input type="text" id="nameField" placeholder="Nome de usuário">
+      <button type="submit" onclick="saveName()" id="playButton">JOGAR</button>
+      <div id="players">
+        <h3>Lista de jogadores:</h3>
+        <ul id="playerList"></ul>
+      </div>
     </div>
     <script src="js/records.js"></script>
   </body>
-
 </html>

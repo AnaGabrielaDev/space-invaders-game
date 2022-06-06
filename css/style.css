@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
+:root {
+  --space: #06031d;
+  --white-purple: #dac6ff;
+  --light-purple: #a27fe4;
+  --purple: #291945;
+  --dark-purple: #1a112e;
+  /* --yellow: #ffcf32; */
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 #tela {
@@ -13,40 +22,123 @@
   width: 100vw;
 }
 
-h2 {
-  font-family: 'Press Start 2P', cursive;
+#initialScreen {
+  color: var(--purple);
+
+  height: 100vh;
+  background: var(--space);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .divMain {
-  background-color: rgb(162, 127, 228);
-  font-family: fantasy 15px;
-  border-radius: 10px;
-  padding: 120px;
-  width: 800px;
-  margin: auto;
-  margin-top: 25%;
-  box-shadow: 8px 10px 10px rgba(0, 0, 0, 0.438);
+  text-align: center;
+  font: 15px monospace;
+
+  background: var(--light-purple);
+  width: min(600px, 90%);
+  padding: min(75px, 7.5%);
+  margin: 0 auto;
+  border: 4px solid var(--purple);
+  /* border-radius: 10px; */
+  box-shadow: 6px 6px 0 var(--dark-purple);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-direction: column;
 }
 
-#play  {
-  width: 350px;
-  text-align: center;
+h2 {
+  font: 700 20px 'Press Start 2P', cursive;
+  line-height: 24px;
+}
+
+#nameField,
+#playButton {
+  font: 700 1rem monospace;
+  width: min(300px, 100%);
+  margin: 0 auto;
   padding: 15px 20px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  background-color: #FCC302;
-  font-size: 18px;
+  border: none;
+  /* border-radius: 55px; */
 }
 
-#initialScreen {
-  background-color: rgb(0, 0, 0);
-}
-
-#nameFiel #play {
-  position: absolute;
+#nameField {
+  color: var(--purple);
   text-align: center;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border-radius: 55px;
+
+  background: var(--white-purple);
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 0 0 var(--purple);
+}
+
+#nameField:focus {
+  outline: none;
+  transform: translateX(-4px) translateY(-4px);
+  box-shadow: 4px 4px 0 var(--dark-purple);
+}
+
+#nameField::placeholder {
+  color: var(--light-purple);
+  opacity: 0.75;
+}
+
+#playButton {
+  background: var(--purple);
+  color: var(--white-purple);
+  /* border-radius: 6px; */
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 0 0 var(--dark-purple);
+}
+
+#playButton:hover {
+  cursor: pointer;
+  transform: translateX(-4px) translateY(-4px);
+  box-shadow: 4px 4px 0 var(--dark-purple);
+}
+
+#players h3 {
+  font-family: 'Press Start 2P';
+  font-size: 16px;
+
+  margin-bottom: 8px;
+}
+
+#playerList {
+  list-style: none;
+}
+
+#playerList li {
+  font-weight: 700;
+}
+
+@media screen and (min-width: 769px) {
+  .divMain {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+      'typewriter typewriter'
+      'name-field play-button'
+      'player-list player-list';
+  }
+
+  .divMain > #typewriter {
+    grid-area: typewriter;
+  }
+
+  .divMain > #nameField {
+    grid-area: name-field;
+  }
+
+  .divMain > #playButton {
+    grid-area: play-button;
+  }
+
+  .divMain > #players {
+    grid-area: player-list;
+  }
 }
