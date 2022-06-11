@@ -3,15 +3,34 @@ import { LevelIntroState } from "./LevelIntroState.js";
 
 export class GameOverState {
   saved = false;
+  brokenRecord = false;
+  records = [];
+  constructor() {
+    this.records = JSON.parse(localStorage.getItem("records")) ?? [];
+  }
   update(game) {
     if (!this.saved) {
-      const records = JSON.parse(localStorage.getItem("records")) ?? [];
-      records.push({
+      const { score: biggestRecord } = this.records.reduce(
+        (acc, currentValue) => {
+          if (acc.score > currentValue.score) return acc;
+
+          return currentValue;
+        },
+        {
+          score: 0,
+        }
+      );
+
+      if (game.player.score > biggestRecord) {
+        this.brokenRecord = true;
+      }
+
+      this.records.push({
         name: game.player.name,
         score: game.player.score,
       });
 
-      localStorage.setItem("records", JSON.stringify(records));
+      localStorage.setItem("records", JSON.stringify(this.records));
       this.saved = true;
     }
   }
@@ -24,8 +43,17 @@ export class GameOverState {
     ctx.textAlign = "center";
     ctx.fillText("Game Over!", game.width / 2, game.height / 2 - 40);
     ctx.font = "16px Arial";
+
+    if (this.brokenRecord) {
+      ctx.fillText(
+        `You broke the record!!! *o*`,
+        game.width / 2,
+        game.height / 2 - 20
+      );
+    }
+
     ctx.fillText(
-      "You scored " + game.player.score + " and got to level " + game.level,
+      `You scored ${game.player.score} and got to level ${game.level}`,
       game.width / 2,
       game.height / 2
     );

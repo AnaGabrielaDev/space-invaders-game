@@ -29,9 +29,13 @@ export class PlayState {
     const invader = new Image();
     invader.src = "./assets/imgs/alien.png";
 
+    const rocket = new Image();
+    rocket.src = "./assets/imgs/laser.png";
+
     this.images = {
       ship,
       invader,
+      rocket,
     };
   }
 
@@ -90,7 +94,12 @@ export class PlayState {
       new Date().valueOf() - this.lastRocketTime > 1000 / this.rocketMaxFireRate
     ) {
       this.rockets.push(
-        new Rocket(this.ship.x, this.ship.y - 12, this.config.rocketVelocity)
+        new Rocket(
+          this.ship.x,
+          this.ship.y - 12,
+          this.config.rocketVelocity,
+          this.images.rocket
+        )
       );
       this.lastRocketTime = new Date().valueOf();
     }
@@ -146,13 +155,13 @@ export class PlayState {
     }
 
     //  Move the invaders.
-    var hitLeft = false,
+    let hitLeft = false,
       hitRight = false,
       hitBottom = false;
-    for (i = 0; i < this.invaders.length; i++) {
-      var invader = this.invaders[i];
-      var newx = invader.x + this.invaderVelocity.x * dt;
-      var newy = invader.y + this.invaderVelocity.y * dt;
+    for (let i = 0; i < this.invaders.length; i++) {
+      let invader = this.invaders[i];
+      let newx = invader.x + this.invaderVelocity.x * dt;
+      let newy = invader.y + this.invaderVelocity.y * dt;
       if (hitLeft == false && newx < game.limits.left) {
         hitLeft = true;
       } else if (hitRight == false && newx > game.limits.right) {
@@ -200,8 +209,8 @@ export class PlayState {
       var invader = this.invaders[i];
       var bang = false;
 
-      for (var j = 0; j < this.rockets.length; j++) {
-        var rocket = this.rockets[j];
+      for (let j = 0; j < this.rockets.length; j++) {
+        let rocket = this.rockets[j];
 
         if (
           rocket.x >= invader.x - invader.width / 2 &&
@@ -332,7 +341,8 @@ export class PlayState {
     ctx.fillStyle = "#ff0000";
     for (let i = 0; i < this.rockets.length; i++) {
       var rocket = this.rockets[i];
-      ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+      ctx.drawImage(rocket.image, rocket.x, rocket.y - 2, 1, 4);
+      //   ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
     }
 
     //  Draw info.
