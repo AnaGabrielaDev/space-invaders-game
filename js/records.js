@@ -17,7 +17,7 @@ users = users
   .sort((a, b) => {
     return b.score - a.score;
   })
-  .filter((user, index) => index < 10);
+  .filter((user, index) => index < 5);
 
 for (const user of users) {
   const userName = document.createElement("li");

@@ -50,6 +50,8 @@ export class GameOverState {
         game.width / 2,
         game.height / 2 - 20
       );
+    } else {
+      ctx.fillText(`You loose!!! :(:`, game.width / 2, game.height / 2 - 20);
     }
 
     ctx.fillText(
