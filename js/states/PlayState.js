@@ -90,7 +90,7 @@ export class PlayState {
 
   fireRocket() {
     const rocketSfx = new Audio();
-    rocketSfx.src = "../../assets/audio/laser-sfx.mp3";
+    rocketSfx.src = "../../assets/audio/sfx/laser.mp3";
     rocketSfx.volume = 0.1;
 
     if (
@@ -228,9 +228,14 @@ export class PlayState {
         ) {
           //  Remove the rocket, set 'bang' so we don't process
           //  this rocket again.
+          const invaderSfx = new Audio();
+          invaderSfx.src = "../../assets/audio/sfx/invader-hit.wav";
+          invaderSfx.volume = 0.25;
+  
+          invaderSfx.play();
           this.rockets.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerInvader * this.level;
+          game.player.score += this.config.pointsPerInvader;
           break;
         }
       }
@@ -281,6 +286,11 @@ export class PlayState {
         bomb.y >= this.ship.y - this.ship.height / 2 &&
         bomb.y <= this.ship.y + this.ship.height / 2
       ) {
+        const shipSfx = new Audio();
+        shipSfx.src = "../../assets/audio/sfx/ship-hit.wav";
+        shipSfx.volume = 0.125;
+
+        shipSfx.play();
         this.bombs.splice(i--, 1);
         game.player.lives--;
       }
@@ -302,11 +312,27 @@ export class PlayState {
 
     //  Check for failure
     if (game.player.lives <= 0) {
+      const phaseOst = document.getElementById("phaseOst");
+      phaseOst.volume = 0.1;
+
+      const gameOverSfx = new Audio();
+      gameOverSfx.src = "../../assets/audio/sfx/game-over.wav";
+      gameOverSfx.volume = 0.25;
+
+      gameOverSfx.play();
       game.moveToState(new GameOverState());
     }
 
     //  Check for victory
     if (this.invaders.length === 0) {
+      const phaseOst = document.getElementById("phaseOst");
+      phaseOst.volume = 0.05;
+
+      const winSfx = new Audio();
+      winSfx.src = "../../assets/audio/sfx/win.wav";
+      winSfx.volume = 0.125;
+
+      winSfx.play();
       game.player.score += this.level * 50;
       game.level += 1;
       game.moveToState(new LevelIntroState(game.level));

@@ -38,6 +38,8 @@ export class LevelIntroState {
       this.countdownMessage = "1";
     }
     if (this.countdown <= 0) {
+      const phaseOst = document.getElementById("phaseOst");
+      phaseOst.volume = 0.2;
       game.moveToState(new PlayState(game.initialConfig, this.level));
     }
   }

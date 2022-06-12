@@ -14,7 +14,7 @@ function inicialize() {
   game.start(name, gameLoop);
 
   const phaseMusic = document.getElementById("phaseOst");
-  phaseMusic.volume = 0.25;
+  phaseMusic.volume = 0.2;
 
   window.addEventListener("keydown", function keydown(e) {
     var keycode = e.which || window.event.keycode;
