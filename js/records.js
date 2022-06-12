@@ -31,7 +31,6 @@ for (let i = 0; i < users.length; i++) {
 }
 
 for (const [index, user] of users.entries()) {
-  console.log(user, index)
   if (index >= 5) break;
 
   const userName = document.createElement("li");

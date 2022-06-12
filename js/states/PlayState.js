@@ -27,10 +27,10 @@ export class PlayState {
     ship.src = "./assets/imgs/ship.png";
 
     const invader = new Image();
-    invader.src = "./assets/imgs/alien.png";
+    invader.src = "./assets/imgs/invader.png";
 
     const rocket = new Image();
-    rocket.src = "./assets/imgs/laser.png";
+    rocket.src = "./assets/imgs/rocket.png";
 
     this.images = {
       ship,
@@ -89,9 +89,7 @@ export class PlayState {
   }
 
   fireRocket() {
-    const rocketSfx = new Audio();
-    rocketSfx.src = "../../assets/audio/sfx/laser.mp3";
-    rocketSfx.type = "audio/mp3";
+    const rocketSfx = document.getElementById("rocketSfx").cloneNode(true);
     rocketSfx.volume = 0.1;
 
     if (
@@ -229,12 +227,10 @@ export class PlayState {
         ) {
           //  Remove the rocket, set 'bang' so we don't process
           //  this rocket again.
-          const invaderSfx = new Audio();
-          invaderSfx.src = "../../assets/audio/sfx/invader-hit.wav";
-          invaderSfx.type = "audio/wav";
-          invaderSfx.volume = 0.25;
+          const invaderHitSfx = document.getElementById("invaderHitSfx").cloneNode(true);
+          invaderHitSfx.volume = 0.15;
   
-          invaderSfx.play();
+          invaderHitSfx.play();
           this.rockets.splice(j--, 1);
           bang = true;
           game.player.score += this.config.pointsPerInvader;
@@ -288,12 +284,10 @@ export class PlayState {
         bomb.y >= this.ship.y - this.ship.height / 2 &&
         bomb.y <= this.ship.y + this.ship.height / 2
       ) {
-        const shipSfx = new Audio();
-        shipSfx.src = "../../assets/audio/sfx/ship-hit.wav";
-        shipSfx.type = "audio/wav";
-        shipSfx.volume = 0.125;
+        const shipHitSfx = document.getElementById("shipHitSfx").cloneNode(true);
+        shipHitSfx.volume = 0.125;
 
-        shipSfx.play();
+        shipHitSfx.play();
         this.bombs.splice(i--, 1);
         game.player.lives--;
       }
@@ -318,9 +312,7 @@ export class PlayState {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.1;
 
-      const gameOverSfx = new Audio();
-      gameOverSfx.src = "../../assets/audio/sfx/game-over.wav";
-      gameOverSfx.type = "audio/wav";
+      const gameOverSfx = document.getElementById("gameOverSfx").cloneNode(true);
       gameOverSfx.volume = 0.25;
 
       gameOverSfx.play();
@@ -332,9 +324,7 @@ export class PlayState {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.05;
 
-      const winSfx = new Audio();
-      winSfx.src = "../../assets/audio/sfx/win.wav";
-      winSfx.type = "audio/wav";
+      const winSfx = document.getElementById("winSfx").cloneNode(true);
       winSfx.volume = 0.125;
 
       winSfx.play();
