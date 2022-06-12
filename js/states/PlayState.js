@@ -24,7 +24,7 @@ export class PlayState {
     this.bombs = [];
 
     const ship = new Image();
-    ship.src = "./assets/imgs/canhao.png";
+    ship.src = "./assets/imgs/ship.png";
 
     const invader = new Image();
     invader.src = "./assets/imgs/alien.png";
@@ -290,7 +290,7 @@ export class PlayState {
         invader.x - invader.width / 2 < this.ship.x + this.ship.width / 2 &&
         invader.y + invader.height / 2 > this.ship.y - this.ship.height / 2 &&
         invader.y - invader.height / 2 < this.ship.y + this.ship.height / 2
-      ) {
+        ) {
         //  Dead by collision!
         game.player.lives = 0;
       }
