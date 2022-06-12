@@ -14,8 +14,8 @@ export class Invader {
     this.rank = rank;
     this.file = file;
     this.type = type;
-    this.width = 18;
-    this.height = 25;
+    this.width = 19;
+    this.height = 23;
     this.image = image;
   }
 }
