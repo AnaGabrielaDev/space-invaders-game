@@ -12,17 +12,17 @@ export class State {
 
     context.clearRect(0, 0, game.width, game.height);
 
-    context.font = "30px Arial";
+    context.font = "700 30px Arial";
     context.fillStyle = "#FFFFFF";
     context.textBaseline = "middle";
     context.textAlign = "center";
-    context.fillText("Space Invaders", game.width / 2, game.height / 2 - 40);
+    context.fillText("Space Invaders", game.width / 2, game.height / 2 - 20);
     context.font = "16px Arial";
 
     context.fillText(
       "Press 'Space' to start.",
       game.width / 2,
-      game.height / 2
+      game.height / 2 + 20
     );
   }
   keyDown(game, keyCode) {

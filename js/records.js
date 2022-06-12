@@ -1,12 +1,12 @@
-const nameUser = document.getElementById("nameField");
+const nameField = document.getElementById("nameField");
 const buttonName = document.getElementById("playButton");
 const score = document.getElementById("playerList");
-const meuStorage = localStorage;
+const myStorage = localStorage;
 
 let users = [];
-if (meuStorage.getItem("records"))
-  users = JSON.parse(meuStorage.getItem("records"));
-else {
+if (myStorage.getItem("records")) {
+  users = JSON.parse(myStorage.getItem("records"));
+} else {
   const noPlayers = document.createElement("li");
   noPlayers.innerHTML = "Nenhum jogador registrado!";
 
@@ -26,20 +26,33 @@ for (const user of users) {
   score.appendChild(userName);
 }
 
-function saveName() {
-  users.push(nameUser.value);
-  // meuStorage.setItem("nameUser", JSON.stringify(users));
+nameField.addEventListener("keypress", (event) => {
+  if (event.key === " ")
+    event.preventDefault();
 
-  window.location.replace(`/game.html?name=${nameUser.value}`);
+  if (event.key === "Enter")
+    playButton.click();
+})
+
+function saveName() {
+  if (nameField.value.length === 4) { 
+    const username = nameField.value.trim().toUpperCase();
+    users.push(username);
+    // myStorage.setItem("nameField", JSON.stringify(users));
+    
+    window.location.replace(`/game.html?name=${username}`);
+  } else {
+    alert("Seu nome de usuário precisa possuir 4 letras!");
+  }
 }
 
-function typeWrite(elemento) {
-  const textoArray = elemento.innerHTML.split("");
-  elemento.innerHTML = "";
-  textoArray.forEach((letra, i) => {
-    setTimeout(() => (elemento.innerHTML += letra), 75 * i);
+function typeWrite(element) {
+  const textArray = element.innerHTML.split("");
+  element.innerHTML = "";
+  textArray.forEach((letter, i) => {
+    setTimeout(() => (element.innerHTML += letter), 75 * i);
   });
 }
 
-const titulo = document.querySelector(".maquina-escrever");
-typeWrite(titulo);
+const title = document.querySelector("#typewriter");
+typeWrite(title);
