@@ -91,6 +91,7 @@ export class PlayState {
   fireRocket() {
     const rocketSfx = new Audio();
     rocketSfx.src = "../../assets/audio/sfx/laser.mp3";
+    rocketSfx.type = "audio/mp3";
     rocketSfx.volume = 0.1;
 
     if (
@@ -230,6 +231,7 @@ export class PlayState {
           //  this rocket again.
           const invaderSfx = new Audio();
           invaderSfx.src = "../../assets/audio/sfx/invader-hit.wav";
+          invaderSfx.type = "audio/wav";
           invaderSfx.volume = 0.25;
   
           invaderSfx.play();
@@ -288,6 +290,7 @@ export class PlayState {
       ) {
         const shipSfx = new Audio();
         shipSfx.src = "../../assets/audio/sfx/ship-hit.wav";
+        shipSfx.type = "audio/wav";
         shipSfx.volume = 0.125;
 
         shipSfx.play();
@@ -317,6 +320,7 @@ export class PlayState {
 
       const gameOverSfx = new Audio();
       gameOverSfx.src = "../../assets/audio/sfx/game-over.wav";
+      gameOverSfx.type = "audio/wav";
       gameOverSfx.volume = 0.25;
 
       gameOverSfx.play();
@@ -330,6 +334,7 @@ export class PlayState {
 
       const winSfx = new Audio();
       winSfx.src = "../../assets/audio/sfx/win.wav";
+      winSfx.type = "audio/wav";
       winSfx.volume = 0.125;
 
       winSfx.play();

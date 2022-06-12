@@ -41,7 +41,7 @@ function saveName() {
     users.push(username);
     // myStorage.setItem("nameField", JSON.stringify(users));
     
-    window.location.replace(`/game.html?name=${username}`);
+    window.location.replace(`game.html?name=${username}`);
   } else {
     alert("Seu nome de usuário precisa possuir 4 letras!");
   }
