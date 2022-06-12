@@ -91,6 +91,7 @@ export class PlayState {
   fireRocket() {
     const rocketSfx = new Audio();
     rocketSfx.src = "../../assets/audio/laser-sfx.mp3";
+    rocketSfx.volume = 0.1;
 
     if (
       this.lastRocketTime === null ||
