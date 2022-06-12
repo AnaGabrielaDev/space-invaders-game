@@ -27,10 +27,10 @@ export class PlayState {
     ship.src = "./assets/imgs/ship.png";
 
     const invader = new Image();
-    invader.src = "./assets/imgs/alien.png";
+    invader.src = "./assets/imgs/invader.png";
 
     const rocket = new Image();
-    rocket.src = "./assets/imgs/laser.png";
+    rocket.src = "./assets/imgs/rocket.png";
 
     this.images = {
       ship,
@@ -89,8 +89,7 @@ export class PlayState {
   }
 
   fireRocket() {
-    const rocketSfx = new Audio();
-    rocketSfx.src = "../../assets/audio/laser-sfx.mp3";
+    const rocketSfx = document.getElementById("rocketSfx").cloneNode(true);
     rocketSfx.volume = 0.1;
 
     if (
@@ -126,7 +125,7 @@ export class PlayState {
     if (game.pressedKeys[controls.KEY_RIGHT]) {
       this.ship.x += this.shipSpeed * dt;
     }
-    if (game.pressedKeys[controls.KEY_SPACE]) {
+    if (game.pressedKeys[controls.KEY_SPACE] || game.leftButton) {
       this.fireRocket();
     }
     if (game.mouseXPosition) {
@@ -228,9 +227,13 @@ export class PlayState {
         ) {
           //  Remove the rocket, set 'bang' so we don't process
           //  this rocket again.
+          const invaderHitSfx = document.getElementById("invaderHitSfx").cloneNode(true);
+          invaderHitSfx.volume = 0.15;
+  
+          invaderHitSfx.play();
           this.rockets.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerInvader * this.level;
+          game.player.score += this.config.pointsPerInvader;
           break;
         }
       }
@@ -281,6 +284,10 @@ export class PlayState {
         bomb.y >= this.ship.y - this.ship.height / 2 &&
         bomb.y <= this.ship.y + this.ship.height / 2
       ) {
+        const shipHitSfx = document.getElementById("shipHitSfx").cloneNode(true);
+        shipHitSfx.volume = 0.125;
+
+        shipHitSfx.play();
         this.bombs.splice(i--, 1);
         game.player.lives--;
       }
@@ -302,11 +309,25 @@ export class PlayState {
 
     //  Check for failure
     if (game.player.lives <= 0) {
+      const phaseOst = document.getElementById("phaseOst");
+      phaseOst.volume = 0.1;
+
+      const gameOverSfx = document.getElementById("gameOverSfx").cloneNode(true);
+      gameOverSfx.volume = 0.25;
+
+      gameOverSfx.play();
       game.moveToState(new GameOverState());
     }
 
     //  Check for victory
     if (this.invaders.length === 0) {
+      const phaseOst = document.getElementById("phaseOst");
+      phaseOst.volume = 0.05;
+
+      const winSfx = document.getElementById("winSfx").cloneNode(true);
+      winSfx.volume = 0.125;
+
+      winSfx.play();
       game.player.score += this.level * 50;
       game.level += 1;
       game.moveToState(new LevelIntroState(game.level));

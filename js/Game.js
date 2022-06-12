@@ -11,6 +11,7 @@ export class Game {
   intervalId;
   stateStack = [];
   pressedKeys = [];
+  leftButton;
   mouseXPosition;
 
   initialConfig = {
@@ -116,6 +117,16 @@ export class Game {
     if (this.currentState() && this.currentState().keyDown) {
       this.currentState().keyDown(this, keyCode);
     }
+  }
+
+  mouseUp(button) {
+    if (button === 0)
+      this.leftButton = false;
+  }
+
+  mouseDown(button) {
+    if (button === 0)
+      this.leftButton = true;
   }
 
   moveMouse(position, isStopped) {

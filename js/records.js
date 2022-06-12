@@ -14,13 +14,25 @@ if (myStorage.getItem("records")) {
   score.appendChild(noPlayers);
 }
 
-users = users
-  .sort((a, b) => {
-    return b.score - a.score;
-  })
-  .filter((user, index) => index < 5);
+// Sorting algorithm using array functions
+// users = users
+//   .sort((a, b) => b.score - a.score)
+//   .filter((user, index) => index < 5);
 
-for (const user of users) {
+// Sorting algorithm taught in the classroom
+for (let i = 0; i < users.length; i++) {
+  for (let j = i; j < users.length; j++) {
+    if (users[j].score > users[i].score) {
+      let auxiliary = users[i];
+      users[i] = users[j];
+      users[j] = auxiliary;
+    }
+  }
+}
+
+for (const [index, user] of users.entries()) {
+  if (index >= 5) break;
+
   const userName = document.createElement("li");
   userName.innerHTML = `${user.name} - ${user.score}`;
 
@@ -41,7 +53,7 @@ function saveName() {
     users.push(username);
     // myStorage.setItem("nameField", JSON.stringify(users));
     
-    window.location.replace(`/game.html?name=${username}`);
+    window.location.replace(`game.html?name=${username}`);
   } else {
     alert("Seu nome de usuário precisa possuir 4 letras!");
   }

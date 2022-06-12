@@ -78,7 +78,7 @@ export class GameOverState {
       game.level = 1;
       game.moveToState(new LevelIntroState(1));
     } else {
-      window.location.replace("/");
+      window.location.pathname = "/space-invaders-game";
     }
   }
 }

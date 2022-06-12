@@ -14,8 +14,8 @@ function inicialize() {
   game.start(name, gameLoop);
 
   const phaseMusic = document.getElementById("phaseOst");
-  phaseMusic.volume = 0.25;
-
+  phaseMusic.volume = 0.2;
+  
   window.addEventListener("keydown", function keydown(e) {
     var keycode = e.which || window.event.keycode;
     //  Supress further processing of left/right/space (37/29/32)
@@ -53,6 +53,14 @@ function inicialize() {
     },
     false
   );
+
+  canvas.addEventListener("mouseup", (event) => {
+    game.mouseUp(event.button)
+  })
+
+  canvas.addEventListener("mousedown", (event) => {
+    game.mouseDown(event.button)
+  })
 
   canvas.addEventListener("mousemove", (event) => {
     game.moveMouse(event.clientX, false);

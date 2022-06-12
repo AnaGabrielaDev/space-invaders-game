@@ -10,10 +10,9 @@
   --light-purple: #a27fe4;
   --purple: #291945;
   --dark-purple: #1a112e;
-  /* --yellow: #ffcf32; */
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 #tela {
   display: block;
@@ -24,6 +23,7 @@
 
 #initialScreen {
   color: var(--purple);
+  overflow: hidden;
 
   height: 100vh;
   background: var(--space);
@@ -40,10 +40,13 @@
   background: var(--light-purple);
   width: min(600px, 90%);
   padding: min(75px, 7.5%);
-  margin: 0 auto;
   border: 4px solid var(--purple);
-  /* border-radius: 10px; */
   box-shadow: 6px 6px 0 var(--dark-purple);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   display: flex;
   align-items: center;
@@ -53,7 +56,7 @@
 }
 
 h2 {
-  font: 700 20px 'Press Start 2P', cursive;
+  font: 700 20px "Press Start 2P", cursive;
   line-height: 24px;
 }
 
@@ -64,7 +67,6 @@ h2 {
   margin: 0 auto;
   padding: 15px 20px;
   border: none;
-  /* border-radius: 55px; */
 }
 
 #nameField {
@@ -91,7 +93,6 @@ h2 {
 #playButton {
   background: var(--purple);
   color: var(--white-purple);
-  /* border-radius: 6px; */
   transition: transform 0.1s, box-shadow 0.1s;
   box-shadow: 0 0 0 var(--dark-purple);
 }
@@ -103,7 +104,7 @@ h2 {
 }
 
 #players h3 {
-  font-family: 'Press Start 2P';
+  font-family: "Press Start 2P";
   font-size: 16px;
 
   margin-bottom: 8px;
@@ -122,9 +123,9 @@ h2 {
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-areas:
-      'typewriter typewriter'
-      'name-field play-button'
-      'player-list player-list';
+      "typewriter typewriter"
+      "name-field play-button"
+      "player-list player-list";
   }
 
   .divMain > #typewriter {
