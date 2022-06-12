@@ -126,7 +126,7 @@ export class PlayState {
     if (game.pressedKeys[controls.KEY_RIGHT]) {
       this.ship.x += this.shipSpeed * dt;
     }
-    if (game.pressedKeys[controls.KEY_SPACE]) {
+    if (game.pressedKeys[controls.KEY_SPACE] || game.leftButton) {
       this.fireRocket();
     }
     if (game.mouseXPosition) {

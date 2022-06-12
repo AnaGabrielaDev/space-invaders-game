@@ -54,6 +54,14 @@ function inicialize() {
     false
   );
 
+  canvas.addEventListener("mouseup", (event) => {
+    game.mouseUp(event.button)
+  })
+
+  canvas.addEventListener("mousedown", (event) => {
+    game.mouseDown(event.button)
+  })
+
   canvas.addEventListener("mousemove", (event) => {
     game.moveMouse(event.clientX, false);
 
