@@ -24,7 +24,7 @@ export class PlayState {
     this.bombs = [];
 
     const ship = new Image();
-    ship.src = "./assets/imgs/canhao.png";
+    ship.src = "./assets/imgs/ship.png";
 
     const invader = new Image();
     invader.src = "./assets/imgs/alien.png";
@@ -91,6 +91,7 @@ export class PlayState {
   fireRocket() {
     const rocketSfx = new Audio();
     rocketSfx.src = "../../assets/audio/laser-sfx.mp3";
+    rocketSfx.volume = 0.1;
 
     if (
       this.lastRocketTime === null ||
@@ -127,6 +128,9 @@ export class PlayState {
     }
     if (game.pressedKeys[controls.KEY_SPACE]) {
       this.fireRocket();
+    }
+    if (game.mouseXPosition) {
+      this.ship.x = game.mouseXPosition - (window.innerWidth / 2 - game.width / 2);
     }
 
     if (this.ship.x < game.limits.left) {
@@ -226,7 +230,7 @@ export class PlayState {
           //  this rocket again.
           this.rockets.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerInvader;
+          game.player.score += this.config.pointsPerInvader * this.level;
           break;
         }
       }
@@ -290,7 +294,7 @@ export class PlayState {
         invader.x - invader.width / 2 < this.ship.x + this.ship.width / 2 &&
         invader.y + invader.height / 2 > this.ship.y - this.ship.height / 2 &&
         invader.y - invader.height / 2 < this.ship.y + this.ship.height / 2
-      ) {
+        ) {
         //  Dead by collision!
         game.player.lives = 0;
       }

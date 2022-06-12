@@ -2,6 +2,7 @@ const nameField = document.getElementById("nameField");
 const buttonName = document.getElementById("playButton");
 const score = document.getElementById("playerList");
 const myStorage = localStorage;
+const validCharacters = /[a-zA-Z]/;
 
 let users = [];
 if (myStorage.getItem("records")) {
@@ -27,7 +28,7 @@ for (const user of users) {
 }
 
 nameField.addEventListener("keypress", (event) => {
-  if (event.key === " ")
+  if (!validCharacters.test(event.key))
     event.preventDefault();
 
   if (event.key === "Enter")

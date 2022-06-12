@@ -11,6 +11,7 @@ export class Game {
   intervalId;
   stateStack = [];
   pressedKeys = [];
+  mouseXPosition;
 
   initialConfig = {
     bombRate: 0.05,
@@ -115,5 +116,12 @@ export class Game {
     if (this.currentState() && this.currentState().keyDown) {
       this.currentState().keyDown(this, keyCode);
     }
+  }
+
+  moveMouse(position, isStopped) {
+    if (isStopped)
+      this.mouseXPosition = false;
+    else
+      this.mouseXPosition = position;
   }
 }

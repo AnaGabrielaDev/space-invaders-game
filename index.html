@@ -22,7 +22,15 @@
         <ul id="playerList"></ul>
       </div>
     </div>
+    <audio id="gameOst" src="assets/audio/game-ost.mp3" autoplay></audio>
     <script src="js/records.js"></script>
-    <audio src="assets/audio/game-ost.mp3" autoplay></audio>
+    <script>
+      function inicialize() {
+        gameOst = document.getElementById("gameOst");
+        gameOst.volume = 0.4;
+      }
+
+      inicialize();
+    </script>
   </body>
 </html>

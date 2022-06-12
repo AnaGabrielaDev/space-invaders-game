@@ -5,9 +5,11 @@ export class GameOverState {
   saved = false;
   brokenRecord = false;
   records = [];
+  
   constructor() {
     this.records = JSON.parse(localStorage.getItem("records")) ?? [];
   }
+
   update(game) {
     if (!this.saved) {
       const { score: biggestRecord } = this.records.reduce(
@@ -34,10 +36,11 @@ export class GameOverState {
       this.saved = true;
     }
   }
+
   draw(game, dt, ctx) {
     ctx.clearRect(0, 0, game.width, game.height);
 
-    ctx.font = "30px Arial";
+    ctx.font = "700 30px Arial";
     ctx.fillStyle = "#FFFFFF";
     ctx.textBaseline = "center";
     ctx.textAlign = "center";
@@ -48,24 +51,26 @@ export class GameOverState {
       ctx.fillText(
         `You broke the record!!! *o*`,
         game.width / 2,
-        game.height / 2 - 20
+        game.height / 2 - 10
       );
     } else {
-      ctx.fillText(`You loose!!! :(:`, game.width / 2, game.height / 2 - 20);
+      ctx.fillText(`You lost!!! :(`, game.width / 2, game.height / 2 - 10);
     }
 
     ctx.fillText(
-      `You scored ${game.player.score} and got to level ${game.level}`,
+      `You scored ${game.player.score} and reached level ${game.level}`,
       game.width / 2,
-      game.height / 2
+      game.height / 2 + 20
     );
+
     ctx.font = "16px Arial";
     ctx.fillText(
       "Press any key to play again or 'Space' to select another player.",
       game.width / 2,
-      game.height / 2 + 40
+      game.height / 2 + 50
     );
   }
+
   keyDown(game, keyCode) {
     if (keyCode !== controls.KEY_SPACE) {
       game.player.lives = 3;
