@@ -14,12 +14,12 @@ export class Game {
 
   initialConfig = {
     bombRate: 0.05,
-    bombMinVelocity: 50,
-    bombMaxVelocity: 50,
+    bombMinVelocity: 75,
+    bombMaxVelocity: 75,
     invaderInitialVelocity: 25,
     invaderAcceleration: 0,
     invaderDropDistance: 20,
-    rocketVelocity: 120,
+    rocketVelocity: 180,
     rocketMaxFireRate: 2,
     gameWidth: 400,
     gameHeight: 300,

@@ -70,6 +70,7 @@ h2 {
 #nameField {
   color: var(--purple);
   text-align: center;
+  text-transform: uppercase;
 
   background: var(--white-purple);
   transition: transform 0.1s, box-shadow 0.1s;

@@ -72,8 +72,8 @@ export class PlayState {
       for (let file = 0; file < files; file++) {
         invaders.push(
           new Invader(
-            game.width / 2 + ((files / 2 - file) * 200) / files,
-            game.limits.top + rank * 20,
+            game.width / 2 + ((files / 2 - file) * 225) / files,
+            game.limits.top + rank * 25,
             rank,
             file,
             "Invader",
@@ -89,10 +89,14 @@ export class PlayState {
   }
 
   fireRocket() {
+    const rocketSfx = new Audio();
+    rocketSfx.src = "../../assets/audio/laser-sfx.mp3";
+
     if (
       this.lastRocketTime === null ||
       new Date().valueOf() - this.lastRocketTime > 1000 / this.rocketMaxFireRate
     ) {
+      rocketSfx.play();
       this.rockets.push(
         new Rocket(
           this.ship.x,
@@ -335,13 +339,13 @@ export class PlayState {
     ctx.fillStyle = "#ff5555";
     for (let i = 0; i < this.bombs.length; i++) {
       const bomb = this.bombs[i];
-      ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+      ctx.fillRect(bomb.x - 2, bomb.y - 2, 6, 6);
     }
+
     //  Draw rockets.
-    ctx.fillStyle = "#ff0000";
     for (let i = 0; i < this.rockets.length; i++) {
       var rocket = this.rockets[i];
-      ctx.drawImage(rocket.image, rocket.x, rocket.y - 2, 1, 4);
+      ctx.drawImage(rocket.image, rocket.x, rocket.y - 2, 2, 12);
       //   ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
     }
 

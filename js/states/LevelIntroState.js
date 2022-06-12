@@ -14,16 +14,16 @@ export class LevelIntroState {
   draw(game, dt, context) {
     context.clearRect(0, 0, game.width, game.height);
 
-    context.font = "36px Arial";
+    context.font = "700 36px Arial";
     context.fillStyle = "#FFFFFF";
     context.textBaseline = "middle";
     context.textAlign = "center";
-    context.fillText("Level " + this.level, game.width / 2, game.height / 2);
+    context.fillText("Level " + this.level, game.width / 2, game.height / 2 - 18);
     context.font = "24px Arial";
     context.fillText(
       "Ready in " + this.countdownMessage,
       game.width / 2,
-      game.height / 2 + 36
+      game.height / 2 + 18
     );
     return;
   }
