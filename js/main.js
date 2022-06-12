@@ -53,6 +53,17 @@ function inicialize() {
     },
     false
   );
+
+  canvas.addEventListener("mousemove", (event) => {
+    game.moveMouse(event.clientX, false);
+
+    function mouseStopped() {
+      if (game.mouseXPosition === event.clientX)
+        game.moveMouse(event.clientX, true);
+    }
+    
+    setTimeout(mouseStopped, 500);
+  })
 }
 inicialize();
 

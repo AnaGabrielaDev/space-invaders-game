@@ -129,6 +129,9 @@ export class PlayState {
     if (game.pressedKeys[controls.KEY_SPACE]) {
       this.fireRocket();
     }
+    if (game.mouseXPosition) {
+      this.ship.x = game.mouseXPosition - (window.innerWidth / 2 - game.width / 2);
+    }
 
     if (this.ship.x < game.limits.left) {
       this.ship.x = game.limits.left;
@@ -227,7 +230,7 @@ export class PlayState {
           //  this rocket again.
           this.rockets.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerInvader;
+          game.player.score += this.config.pointsPerInvader * this.level;
           break;
         }
       }
