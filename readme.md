@@ -54,3 +54,5 @@ Inicie o servidor
 - [Som de de dano do alien](https://www.youtube.com/watch?v=tWhQl3mPLq4&t=3s&ab_channel=DavidParrott)
 
 - [Imagem canhão]() Criada por [@Victor Kauan](https://github.com/victorkauan)
+
+- [Imagem Alien]() Criada por [@Felipe Cassiano](https://github.com/Shinzou27)
