@@ -81,11 +81,11 @@ export class Game {
   }
 
   pushState(state) {
-    //  If there's an enter function for the new state, call it.
+    //  mudar o estado
     if (state.enter) {
       state.enter(this);
     }
-    //  Set the current state.
+    //  setar o estado atual
     this.stateStack.push(state);
   }
 
@@ -105,7 +105,6 @@ export class Game {
 
   keyUp(keyCode) {
     delete this.pressedKeys[keyCode];
-    //  Delegate to the current state too.
     if (this.currentState() && this.currentState().keyUp) {
       this.currentState().keyUp(this, keyCode);
     }

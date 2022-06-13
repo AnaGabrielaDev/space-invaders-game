@@ -17,7 +17,6 @@ export class PlayState {
     this.aliensAreDropping = false;
     this.lastFireTime = null;
 
-    //  Game entities.
     this.cannon = null;
     this.aliens = [];
     this.fires = [];
@@ -186,7 +185,7 @@ export class PlayState {
       }
     }
 
-    //  Update alien velocities.
+    // aumentar velocidade aliens
     if (this.aliensAreDropping) {
       this.alienCurrentDropDistance += this.alienVelocity.y * dt;
       if (this.alienCurrentDropDistance >= this.config.alienDropDistance) {
@@ -195,21 +194,18 @@ export class PlayState {
         this.alienCurrentDropDistance = 0;
       }
     }
-    //  If we've hit the left, move down then right.
     if (hitLeft) {
       this.alienCurrentVelocity += this.config.alienAcceleration;
       this.alienVelocity = { x: 0, y: this.alienCurrentVelocity };
       this.aliensAreDropping = true;
       this.alienNextVelocity = { x: this.alienCurrentVelocity, y: 0 };
     }
-    //  If we've hit the right, move down then left.
     if (hitRight) {
       this.alienCurrentVelocity += this.config.alienAcceleration;
       this.alienVelocity = { x: 0, y: this.alienCurrentVelocity };
       this.aliensAreDropping = true;
       this.alienNextVelocity = { x: -this.alienCurrentVelocity, y: 0 };
     }
-    //  If we've hit the bottom, it's game over.
     if (hitBottom) {
       game.player.lives = 0;
     }
@@ -254,7 +250,6 @@ export class PlayState {
       }
     }
 
-    //  Give each front rank alien a chance to drop a fireAlien.
     for (let i = 0; i < this.config.alienFiles; i++) {
       let alien = frontRankAliens[i];
       if (!alien) continue;
@@ -272,7 +267,7 @@ export class PlayState {
       }
     }
 
-    //  Check for fireAlien/cannon collisions.
+    // atingido
     for (let i = 0; i < this.fireAliens.length; i++) {
       let fireAlien = this.fireAliens[i];
       if (
@@ -292,7 +287,6 @@ export class PlayState {
       }
     }
 
-    //  Check for alien/cannon collisions.
     for (let i = 0; i < this.aliens.length; i++) {
       let alien = this.aliens[i];
       if (
@@ -301,12 +295,10 @@ export class PlayState {
         alien.y + alien.height / 2 > this.cannon.y - this.cannon.height / 2 &&
         alien.y - alien.height / 2 < this.cannon.y + this.cannon.height / 2
       ) {
-        //  Dead by collision!
         game.player.lives = 0;
       }
     }
 
-    //  Check for failure
     if (game.player.lives <= 0) {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.1;
@@ -320,7 +312,6 @@ export class PlayState {
       game.moveToState(new GameOverState());
     }
 
-    //  Check for victory
     if (this.aliens.length === 0) {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.05;
@@ -336,10 +327,8 @@ export class PlayState {
   }
 
   draw(game, dt, ctx) {
-    //  Clear the background.
     ctx.clearRect(0, 0, game.width, game.height);
 
-    //  Draw cannon.
     ctx.drawImage(
       this.cannon.image,
       this.cannon.x - this.cannon.width / 2,
@@ -348,7 +337,6 @@ export class PlayState {
       this.cannon.height
     );
 
-    //  Draw aliens.
     ctx.fillStyle = "#006600";
     for (let i = 0; i < this.aliens.length; i++) {
       let alien = this.aliens[i];
@@ -361,7 +349,6 @@ export class PlayState {
       );
     }
 
-    //  Draw fireAliens.
     ctx.fillStyle = "#ff5555";
     for (let i = 0; i < this.fireAliens.length; i++) {
       const fireAlien = this.fireAliens[i];
@@ -373,7 +360,7 @@ export class PlayState {
       ctx.drawImage(fire.image, fire.x, fire.y - 2, 2, 12);
     }
 
-    //  Draw info.
+    //  desenhar informaçoes.
     const textYpos =
       game.limits.bottom + (game.height - game.limits.bottom) / 2 + 14 / 2;
     ctx.font = "14px Arial";

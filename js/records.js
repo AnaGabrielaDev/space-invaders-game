@@ -14,12 +14,6 @@ if (myStorage.getItem("records")) {
   score.appendChild(noPlayers);
 }
 
-// Sorting algorithm using array functions
-// users = users
-//   .sort((a, b) => b.score - a.score)
-//   .filter((user, index) => index < 5);
-
-// Sorting algorithm taught in the classroom
 for (let i = 0; i < users.length; i++) {
   for (let j = i; j < users.length; j++) {
     if (users[j].score > users[i].score) {
@@ -51,7 +45,7 @@ function saveName() {
   if (nameField.value.length === 4) { 
     const username = nameField.value.trim().toUpperCase();
     users.push(username);
-    // myStorage.setItem("nameField", JSON.stringify(users));
+    const myStorage.setItem("nameField", JSON.stringify(users));
     
     window.location.replace(`game.html?name=${username}`);
   } else {
