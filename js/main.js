@@ -18,7 +18,6 @@ function inicialize() {
 
   window.addEventListener("keydown", function keydown(e) {
     let keycode = e.which || window.event.keycode;
-    //  Supress further processing of left/right/space (37/29/32)
     if (keycode == 37 || keycode == 39 || keycode == 32) {
       e.preventDefault();
     }
