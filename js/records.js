@@ -34,19 +34,17 @@ for (const [index, user] of users.entries()) {
 }
 
 nameField.addEventListener("keypress", (event) => {
-  if (!validCharacters.test(event.key))
-    event.preventDefault();
+  if (!validCharacters.test(event.key)) event.preventDefault();
 
-  if (event.key === "Enter")
-    playButton.click();
-})
+  if (event.key === "Enter") playButton.click();
+});
 
 function saveName() {
-  if (nameField.value.length === 4) { 
+  if (nameField.value.length === 4) {
     const username = nameField.value.trim().toUpperCase();
     users.push(username);
-    const myStorage.setItem("nameField", JSON.stringify(users));
-    
+    myStorage.setItem("nameField", JSON.stringify(users));
+
     window.location.replace(`game.html?name=${username}`);
   } else {
     alert("Seu nome de usuário precisa possuir 4 letras!");
