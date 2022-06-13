@@ -22,11 +22,11 @@
 }
 
 #initialScreen {
-  color: var(--purple);
+  color: const(--purple);
   overflow: hidden;
 
   height: 100vh;
-  background: var(--space);
+  background: const(--space);
 
   display: flex;
   align-items: center;
@@ -37,11 +37,11 @@
   text-align: center;
   font: 15px monospace;
 
-  background: var(--light-purple);
+  background: const(--light-purple);
   width: min(600px, 90%);
   padding: min(75px, 7.5%);
-  border: 4px solid var(--purple);
-  box-shadow: 6px 6px 0 var(--dark-purple);
+  border: 4px solid const(--purple);
+  box-shadow: 6px 6px 0 const(--dark-purple);
 
   position: absolute;
   top: 50%;
@@ -70,37 +70,37 @@ h2 {
 }
 
 #nameField {
-  color: var(--purple);
+  color: const(--purple);
   text-align: center;
   text-transform: uppercase;
 
-  background: var(--white-purple);
+  background: const(--white-purple);
   transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 0 0 0 var(--purple);
+  box-shadow: 0 0 0 const(--purple);
 }
 
 #nameField:focus {
   outline: none;
   transform: translateX(-4px) translateY(-4px);
-  box-shadow: 4px 4px 0 var(--dark-purple);
+  box-shadow: 4px 4px 0 const(--dark-purple);
 }
 
 #nameField::placeholder {
-  color: var(--light-purple);
+  color: const(--light-purple);
   opacity: 0.75;
 }
 
 #playButton {
-  background: var(--purple);
-  color: var(--white-purple);
+  background: const(--purple);
+  color: const(--white-purple);
   transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 0 0 0 var(--dark-purple);
+  box-shadow: 0 0 0 const(--dark-purple);
 }
 
 #playButton:hover {
   cursor: pointer;
   transform: translateX(-4px) translateY(-4px);
-  box-shadow: 4px 4px 0 var(--dark-purple);
+  box-shadow: 4px 4px 0 const(--dark-purple);
 }
 
 #players h3 {

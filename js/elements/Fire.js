@@ -1,4 +1,4 @@
-export class Rocket {
+export class Fire {
   constructor(x, y, velocity, image) {
     this.x = x;
     this.y = y;

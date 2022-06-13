@@ -1,11 +1,11 @@
 import { controls } from "../controls.js";
-import { LevelIntroState } from "./LevelIntroState.js";
+import { CountState } from "./CountState.js";
 
 export class GameOverState {
   saved = false;
   brokenRecord = false;
   records = [];
-  
+
   constructor() {
     this.records = JSON.parse(localStorage.getItem("records")) ?? [];
   }
@@ -76,7 +76,7 @@ export class GameOverState {
       game.player.lives = 3;
       game.player.score = 0;
       game.level = 1;
-      game.moveToState(new LevelIntroState(1));
+      game.moveToState(new CountState(1));
     } else {
       window.location.pathname = "/space-invaders-game";
     }

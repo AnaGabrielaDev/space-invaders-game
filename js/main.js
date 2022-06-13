@@ -15,9 +15,9 @@ function inicialize() {
 
   const phaseMusic = document.getElementById("phaseOst");
   phaseMusic.volume = 0.2;
-  
+
   window.addEventListener("keydown", function keydown(e) {
-    var keycode = e.which || window.event.keycode;
+    let keycode = e.which || window.event.keycode;
     //  Supress further processing of left/right/space (37/29/32)
     if (keycode == 37 || keycode == 39 || keycode == 32) {
       e.preventDefault();
@@ -26,7 +26,7 @@ function inicialize() {
   });
 
   window.addEventListener("keyup", function keydown(e) {
-    var keycode = e.which || window.event.keycode;
+    let keycode = e.which || window.event.keycode;
     game.keyUp(keycode);
   });
 
@@ -55,12 +55,12 @@ function inicialize() {
   );
 
   canvas.addEventListener("mouseup", (event) => {
-    game.mouseUp(event.button)
-  })
+    game.mouseUp(event.button);
+  });
 
   canvas.addEventListener("mousedown", (event) => {
-    game.mouseDown(event.button)
-  })
+    game.mouseDown(event.button);
+  });
 
   canvas.addEventListener("mousemove", (event) => {
     game.moveMouse(event.clientX, false);
@@ -69,16 +69,16 @@ function inicialize() {
       if (game.mouseXPosition === event.clientX)
         game.moveMouse(event.clientX, true);
     }
-    
+
     setTimeout(mouseStopped, 500);
-  })
+  });
 }
 inicialize();
 
 function gameLoop(game) {
-  var currentState = game.currentState();
+  let currentState = game.currentState();
   if (currentState) {
-    var context = game.container.getContext("2d");
+    let context = game.container.getContext("2d");
 
     if (currentState.update) {
       currentState.update(game, game.delta, context);

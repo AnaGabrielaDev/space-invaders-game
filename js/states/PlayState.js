@@ -1,7 +1,7 @@
-import { Ship, Invader, Bomb, Rocket } from "../elements/index.js";
+import { Cannon, Alien, FireAlien, Fire } from "../elements/index.js";
 import { GameOverState } from "../states/GameOverState.js";
 import { controls } from "../controls.js";
-import { LevelIntroState } from "./LevelIntroState.js";
+import { CountState } from "./CountState.js";
 
 export class PlayState {
   config;
@@ -12,106 +12,109 @@ export class PlayState {
     this.config = config;
     this.level = level;
 
-    this.invaderCurrentVelocity = 10;
-    this.invaderCurrentDropDistance = 0;
-    this.invadersAreDropping = false;
-    this.lastRocketTime = null;
+    this.alienCurrentVelocity = 10;
+    this.alienCurrentDropDistance = 0;
+    this.aliensAreDropping = false;
+    this.lastFireTime = null;
 
     //  Game entities.
-    this.ship = null;
-    this.invaders = [];
-    this.rockets = [];
-    this.bombs = [];
+    this.cannon = null;
+    this.aliens = [];
+    this.fires = [];
+    this.fireAliens = [];
 
-    const ship = new Image();
-    ship.src = "./assets/imgs/ship.png";
+    const cannon = new Image();
+    cannon.src = "./assets/imgs/cannon.png";
 
-    const invader = new Image();
-    invader.src = "./assets/imgs/invader.png";
+    const alien = new Image();
+    alien.src = "./assets/imgs/alien.png";
 
-    const rocket = new Image();
-    rocket.src = "./assets/imgs/rocket.png";
+    const fire = new Image();
+    fire.src = "./assets/imgs/fire.png";
 
     this.images = {
-      ship,
-      invader,
-      rocket,
+      cannon,
+      alien,
+      fire,
     };
   }
 
   enter(game) {
-    this.ship = new Ship(game.width / 2, game.limits.bottom, this.images.ship);
+    this.cannon = new Cannon(
+      game.width / 2,
+      game.limits.bottom,
+      this.images.cannon
+    );
 
-    this.invaderCurrentVelocity = 10;
-    this.invaderCurrentDropDistance = 0;
-    this.invadersAreDropping = false;
+    this.alienCurrentVelocity = 10;
+    this.alienCurrentDropDistance = 0;
+    this.aliensAreDropping = false;
 
     const levelMultiplier = this.level * this.config.levelDifficultyMultiplier;
     const limitLevel =
       this.level < this.config.limitLevelIncrease
         ? this.level
         : this.config.limitLevelIncrease;
-    this.shipSpeed = this.config.shipSpeed;
-    this.invaderInitialVelocity =
-      this.config.invaderInitialVelocity +
-      1.5 * (levelMultiplier * this.config.invaderInitialVelocity);
-    this.bombRate =
-      this.config.bombRate + levelMultiplier * this.config.bombRate;
-    this.bombMinVelocity =
-      this.config.bombMinVelocity +
-      levelMultiplier * this.config.bombMinVelocity;
-    this.bombMaxVelocity =
-      this.config.bombMaxVelocity +
-      levelMultiplier * this.config.bombMaxVelocity;
-    this.rocketMaxFireRate = this.config.rocketMaxFireRate + 0.4 * limitLevel;
+    this.cannonSpeed = this.config.cannonSpeed;
+    this.alienInitialVelocity =
+      this.config.alienInitialVelocity +
+      1.5 * (levelMultiplier * this.config.alienInitialVelocity);
+    this.fireAlienRate =
+      this.config.fireAlienRate + levelMultiplier * this.config.fireAlienRate;
+    this.fireAlienMinVelocity =
+      this.config.fireAlienMinVelocity +
+      levelMultiplier * this.config.fireAlienMinVelocity;
+    this.fireAlienMaxVelocity =
+      this.config.fireAlienMaxVelocity +
+      levelMultiplier * this.config.fireAlienMaxVelocity;
+    this.fireMaxFireRate = this.config.fireMaxFireRate + 0.4 * limitLevel;
 
-    const ranks = this.config.invaderRanks + 0.1 * limitLevel;
-    const files = this.config.invaderFiles + 0.2 * limitLevel;
-    const invaders = [];
+    const ranks = this.config.alienRanks + 0.1 * limitLevel;
+    const files = this.config.alienFiles + 0.2 * limitLevel;
+    const aliens = [];
     for (let rank = 0; rank < ranks; rank++) {
       for (let file = 0; file < files; file++) {
-        invaders.push(
-          new Invader(
+        aliens.push(
+          new Alien(
             game.width / 2 + ((files / 2 - file) * 225) / files,
             game.limits.top + rank * 25,
             rank,
             file,
-            "Invader",
-            this.images.invader
+            "Alien",
+            this.images.alien
           )
         );
       }
     }
-    this.invaders = invaders;
-    this.invaderCurrentVelocity = this.invaderInitialVelocity;
-    this.invaderVelocity = { x: -this.invaderInitialVelocity, y: 0 };
-    this.invaderNextVelocity = null;
+    this.aliens = aliens;
+    this.alienCurrentVelocity = this.alienInitialVelocity;
+    this.alienVelocity = { x: -this.alienInitialVelocity, y: 0 };
+    this.alienNextVelocity = null;
   }
 
-  fireRocket() {
-    const rocketSfx = document.getElementById("rocketSfx").cloneNode(true);
-    rocketSfx.volume = 0.1;
-
+  sendFire() {
+    const fireSfx = document.getElementById("fireSfx").cloneNode(true);
+    fireSfx.volume = 0.1;
     if (
-      this.lastRocketTime === null ||
-      new Date().valueOf() - this.lastRocketTime > 1000 / this.rocketMaxFireRate
+      this.lastFireTime === null ||
+      new Date().valueOf() - this.lastFireTime > 1000 / this.fireMaxFireRate
     ) {
-      rocketSfx.play();
-      this.rockets.push(
-        new Rocket(
-          this.ship.x,
-          this.ship.y - 12,
-          this.config.rocketVelocity,
-          this.images.rocket
+      fireSfx.play();
+      this.fires.push(
+        new Fire(
+          this.cannon.x,
+          this.cannon.y - 12,
+          this.config.fireVelocity,
+          this.images.fire
         )
       );
-      this.lastRocketTime = new Date().valueOf();
+      this.lastFireTime = new Date().valueOf();
     }
   }
 
   keyDown(game, keyCode) {
     if (keyCode == controls.KEY_SPACE) {
-      this.fireRocket();
+      this.sendFire();
     }
     if (keyCode == 80) {
       game.pushState(new PauseState());
@@ -120,55 +123,55 @@ export class PlayState {
 
   update(game, dt) {
     if (game.pressedKeys[controls.KEY_LEFT]) {
-      this.ship.x -= this.shipSpeed * dt;
+      this.cannon.x -= this.cannonSpeed * dt;
     }
     if (game.pressedKeys[controls.KEY_RIGHT]) {
-      this.ship.x += this.shipSpeed * dt;
+      this.cannon.x += this.cannonSpeed * dt;
     }
     if (game.pressedKeys[controls.KEY_SPACE] || game.leftButton) {
-      this.fireRocket();
+      this.sendFire();
     }
     if (game.mouseXPosition) {
-      this.ship.x = game.mouseXPosition - (window.innerWidth / 2 - game.width / 2);
+      this.cannon.x =
+        game.mouseXPosition - (window.innerWidth / 2 - game.width / 2);
     }
 
-    if (this.ship.x < game.limits.left) {
-      this.ship.x = game.limits.left;
+    if (this.cannon.x < game.limits.left) {
+      this.cannon.x = game.limits.left;
     }
-    if (this.ship.x > game.limits.right) {
-      this.ship.x = game.limits.right;
+    if (this.cannon.x > game.limits.right) {
+      this.cannon.x = game.limits.right;
     }
 
-    //  Move each bomb.
-    for (var i = 0; i < this.bombs.length; i++) {
-      var bomb = this.bombs[i];
-      bomb.y += dt * bomb.velocity;
+    //  Mover os fireAlien.
+    for (let i = 0; i < this.fireAliens.length; i++) {
+      let fireAlien = this.fireAliens[i];
+      fireAlien.y += dt * fireAlien.velocity;
 
-      //  If the rocket has gone off the screen remove it.
-      if (bomb.y > this.height) {
-        this.bombs.splice(i--, 1);
+      //  apagar aos tiros fora
+      if (fireAlien.y > this.height) {
+        this.fireAliens.splice(i--, 1);
       }
     }
 
-    //  Move each rocket.
-    for (i = 0; i < this.rockets.length; i++) {
-      var rocket = this.rockets[i];
-      rocket.y -= dt * rocket.velocity;
+    //  mover os misseis
+    for (let i = 0; i < this.fires.length; i++) {
+      let fire = this.fires[i];
+      fire.y -= dt * fire.velocity;
 
-      //  If the rocket has gone off the screen remove it.
-      if (rocket.y < 0) {
-        this.rockets.splice(i--, 1);
+      if (fire.y < 0) {
+        this.fires.splice(i--, 1);
       }
     }
 
-    //  Move the invaders.
+    //  Move the aliens.
     let hitLeft = false,
       hitRight = false,
       hitBottom = false;
-    for (let i = 0; i < this.invaders.length; i++) {
-      let invader = this.invaders[i];
-      let newx = invader.x + this.invaderVelocity.x * dt;
-      let newy = invader.y + this.invaderVelocity.y * dt;
+    for (let i = 0; i < this.aliens.length; i++) {
+      let alien = this.aliens[i];
+      let newx = alien.x + this.alienVelocity.x * dt;
+      let newy = alien.y + this.alienVelocity.y * dt;
       if (hitLeft == false && newx < game.limits.left) {
         hitLeft = true;
       } else if (hitRight == false && newx > game.limits.right) {
@@ -178,130 +181,126 @@ export class PlayState {
       }
 
       if (!hitLeft && !hitRight && !hitBottom) {
-        invader.x = newx;
-        invader.y = newy;
+        alien.x = newx;
+        alien.y = newy;
       }
     }
 
-    //  Update invader velocities.
-    if (this.invadersAreDropping) {
-      this.invaderCurrentDropDistance += this.invaderVelocity.y * dt;
-      if (this.invaderCurrentDropDistance >= this.config.invaderDropDistance) {
-        this.invadersAreDropping = false;
-        this.invaderVelocity = this.invaderNextVelocity;
-        this.invaderCurrentDropDistance = 0;
+    //  Update alien velocities.
+    if (this.aliensAreDropping) {
+      this.alienCurrentDropDistance += this.alienVelocity.y * dt;
+      if (this.alienCurrentDropDistance >= this.config.alienDropDistance) {
+        this.aliensAreDropping = false;
+        this.alienVelocity = this.alienNextVelocity;
+        this.alienCurrentDropDistance = 0;
       }
     }
     //  If we've hit the left, move down then right.
     if (hitLeft) {
-      this.invaderCurrentVelocity += this.config.invaderAcceleration;
-      this.invaderVelocity = { x: 0, y: this.invaderCurrentVelocity };
-      this.invadersAreDropping = true;
-      this.invaderNextVelocity = { x: this.invaderCurrentVelocity, y: 0 };
+      this.alienCurrentVelocity += this.config.alienAcceleration;
+      this.alienVelocity = { x: 0, y: this.alienCurrentVelocity };
+      this.aliensAreDropping = true;
+      this.alienNextVelocity = { x: this.alienCurrentVelocity, y: 0 };
     }
     //  If we've hit the right, move down then left.
     if (hitRight) {
-      this.invaderCurrentVelocity += this.config.invaderAcceleration;
-      this.invaderVelocity = { x: 0, y: this.invaderCurrentVelocity };
-      this.invadersAreDropping = true;
-      this.invaderNextVelocity = { x: -this.invaderCurrentVelocity, y: 0 };
+      this.alienCurrentVelocity += this.config.alienAcceleration;
+      this.alienVelocity = { x: 0, y: this.alienCurrentVelocity };
+      this.aliensAreDropping = true;
+      this.alienNextVelocity = { x: -this.alienCurrentVelocity, y: 0 };
     }
     //  If we've hit the bottom, it's game over.
     if (hitBottom) {
       game.player.lives = 0;
     }
 
-    //  Check for rocket/invader collisions.
-    for (i = 0; i < this.invaders.length; i++) {
-      var invader = this.invaders[i];
-      var bang = false;
+    //ver se o tiro atingiu alien
+    for (let i = 0; i < this.aliens.length; i++) {
+      let alien = this.aliens[i];
+      let bang = false;
 
-      for (let j = 0; j < this.rockets.length; j++) {
-        let rocket = this.rockets[j];
+      for (let j = 0; j < this.fires.length; j++) {
+        let fire = this.fires[j];
 
         if (
-          rocket.x >= invader.x - invader.width / 2 &&
-          rocket.x <= invader.x + invader.width / 2 &&
-          rocket.y >= invader.y - invader.height / 2 &&
-          rocket.y <= invader.y + invader.height / 2
+          fire.x >= alien.x - alien.width / 2 &&
+          fire.x <= alien.x + alien.width / 2 &&
+          fire.y >= alien.y - alien.height / 2 &&
+          fire.y <= alien.y + alien.height / 2
         ) {
-          //  Remove the rocket, set 'bang' so we don't process
-          //  this rocket again.
-          const invaderHitSfx = document.getElementById("invaderHitSfx").cloneNode(true);
-          invaderHitSfx.volume = 0.15;
-  
-          invaderHitSfx.play();
-          this.rockets.splice(j--, 1);
+          const alienHitSfx = document
+            .getElementById("alienHitSfx")
+            .cloneNode(true);
+          alienHitSfx.volume = 0.15;
+          alienHitSfx.play();
+          this.fires.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerInvader;
+          game.player.score += this.config.pointsPerAlien;
           break;
         }
       }
       if (bang) {
-        this.invaders.splice(i--, 1);
+        this.aliens.splice(i--, 1);
       }
     }
-
-    //  Find all of the front rank invaders.
-    var frontRankInvaders = {};
-    for (var i = 0; i < this.invaders.length; i++) {
-      var invader = this.invaders[i];
-      //  If we have no invader for game file, or the invader
-      //  for game file is futher behind, set the front
-      //  rank invader to game one.
+    let frontRankAliens = {};
+    for (let i = 0; i < this.aliens.length; i++) {
+      let alien = this.aliens[i];
       if (
-        !frontRankInvaders[invader.file] ||
-        frontRankInvaders[invader.file].rank < invader.rank
+        !frontRankAliens[alien.file] ||
+        frontRankAliens[alien.file].rank < alien.rank
       ) {
-        frontRankInvaders[invader.file] = invader;
+        frontRankAliens[alien.file] = alien;
       }
     }
 
-    //  Give each front rank invader a chance to drop a bomb.
-    for (var i = 0; i < this.config.invaderFiles; i++) {
-      var invader = frontRankInvaders[i];
-      if (!invader) continue;
-      var chance = this.bombRate * dt;
+    //  Give each front rank alien a chance to drop a fireAlien.
+    for (let i = 0; i < this.config.alienFiles; i++) {
+      let alien = frontRankAliens[i];
+      if (!alien) continue;
+      let chance = this.fireAlienRate * dt;
       if (chance > Math.random()) {
-        //  Fire!
-        this.bombs.push(
-          new Bomb(
-            invader.x,
-            invader.y + invader.height / 2,
-            this.bombMinVelocity +
-              Math.random() * (this.bombMaxVelocity - this.bombMinVelocity)
+        this.fireAliens.push(
+          new FireAlien(
+            alien.x,
+            alien.y + alien.height / 2,
+            this.fireAlienMinVelocity +
+              Math.random() *
+                (this.fireAlienMaxVelocity - this.fireAlienMinVelocity)
           )
         );
       }
     }
 
-    //  Check for bomb/ship collisions.
-    for (var i = 0; i < this.bombs.length; i++) {
-      var bomb = this.bombs[i];
+    //  Check for fireAlien/cannon collisions.
+    for (let i = 0; i < this.fireAliens.length; i++) {
+      let fireAlien = this.fireAliens[i];
       if (
-        bomb.x >= this.ship.x - this.ship.width / 2 &&
-        bomb.x <= this.ship.x + this.ship.width / 2 &&
-        bomb.y >= this.ship.y - this.ship.height / 2 &&
-        bomb.y <= this.ship.y + this.ship.height / 2
+        fireAlien.x >= this.cannon.x - this.cannon.width / 2 &&
+        fireAlien.x <= this.cannon.x + this.cannon.width / 2 &&
+        fireAlien.y >= this.cannon.y - this.cannon.height / 2 &&
+        fireAlien.y <= this.cannon.y + this.cannon.height / 2
       ) {
-        const shipHitSfx = document.getElementById("shipHitSfx").cloneNode(true);
-        shipHitSfx.volume = 0.125;
+        const cannonHitSfx = document
+          .getElementById("cannonHitSfx")
+          .cloneNode(true);
+        cannonHitSfx.volume = 0.125;
 
-        shipHitSfx.play();
-        this.bombs.splice(i--, 1);
+        cannonHitSfx.play();
+        this.fireAliens.splice(i--, 1);
         game.player.lives--;
       }
     }
 
-    //  Check for invader/ship collisions.
-    for (var i = 0; i < this.invaders.length; i++) {
-      var invader = this.invaders[i];
+    //  Check for alien/cannon collisions.
+    for (let i = 0; i < this.aliens.length; i++) {
+      let alien = this.aliens[i];
       if (
-        invader.x + invader.width / 2 > this.ship.x - this.ship.width / 2 &&
-        invader.x - invader.width / 2 < this.ship.x + this.ship.width / 2 &&
-        invader.y + invader.height / 2 > this.ship.y - this.ship.height / 2 &&
-        invader.y - invader.height / 2 < this.ship.y + this.ship.height / 2
-        ) {
+        alien.x + alien.width / 2 > this.cannon.x - this.cannon.width / 2 &&
+        alien.x - alien.width / 2 < this.cannon.x + this.cannon.width / 2 &&
+        alien.y + alien.height / 2 > this.cannon.y - this.cannon.height / 2 &&
+        alien.y - alien.height / 2 < this.cannon.y + this.cannon.height / 2
+      ) {
         //  Dead by collision!
         game.player.lives = 0;
       }
@@ -312,7 +311,9 @@ export class PlayState {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.1;
 
-      const gameOverSfx = document.getElementById("gameOverSfx").cloneNode(true);
+      const gameOverSfx = document
+        .getElementById("gameOverSfx")
+        .cloneNode(true);
       gameOverSfx.volume = 0.25;
 
       gameOverSfx.play();
@@ -320,7 +321,7 @@ export class PlayState {
     }
 
     //  Check for victory
-    if (this.invaders.length === 0) {
+    if (this.aliens.length === 0) {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.05;
 
@@ -330,7 +331,7 @@ export class PlayState {
       winSfx.play();
       game.player.score += this.level * 50;
       game.level += 1;
-      game.moveToState(new LevelIntroState(game.level));
+      game.moveToState(new CountState(game.level));
     }
   }
 
@@ -338,40 +339,38 @@ export class PlayState {
     //  Clear the background.
     ctx.clearRect(0, 0, game.width, game.height);
 
-    //  Draw ship.
+    //  Draw cannon.
     ctx.drawImage(
-      this.ship.image,
-      this.ship.x - this.ship.width / 2,
-      this.ship.y - this.ship.height / 2,
-      this.ship.width,
-      this.ship.height
+      this.cannon.image,
+      this.cannon.x - this.cannon.width / 2,
+      this.cannon.y - this.cannon.height / 2,
+      this.cannon.width,
+      this.cannon.height
     );
 
-    //  Draw invaders.
+    //  Draw aliens.
     ctx.fillStyle = "#006600";
-    for (let i = 0; i < this.invaders.length; i++) {
-      var invader = this.invaders[i];
+    for (let i = 0; i < this.aliens.length; i++) {
+      let alien = this.aliens[i];
       ctx.drawImage(
-        this.invaders[i].image,
-        invader.x - invader.width / 2,
-        invader.y - invader.height / 2,
-        invader.width,
-        invader.height
+        this.aliens[i].image,
+        alien.x - alien.width / 2,
+        alien.y - alien.height / 2,
+        alien.width,
+        alien.height
       );
     }
 
-    //  Draw bombs.
+    //  Draw fireAliens.
     ctx.fillStyle = "#ff5555";
-    for (let i = 0; i < this.bombs.length; i++) {
-      const bomb = this.bombs[i];
-      ctx.fillRect(bomb.x - 2, bomb.y - 2, 6, 6);
+    for (let i = 0; i < this.fireAliens.length; i++) {
+      const fireAlien = this.fireAliens[i];
+      ctx.fillRect(fireAlien.x - 2, fireAlien.y - 2, 6, 6);
     }
-
-    //  Draw rockets.
-    for (let i = 0; i < this.rockets.length; i++) {
-      var rocket = this.rockets[i];
-      ctx.drawImage(rocket.image, rocket.x, rocket.y - 2, 2, 12);
-      //   ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+    //  adicionar os tiros
+    for (let i = 0; i < this.fires.length; i++) {
+      let fire = this.fires[i];
+      ctx.drawImage(fire.image, fire.x, fire.y - 2, 2, 12);
     }
 
     //  Draw info.
@@ -379,7 +378,7 @@ export class PlayState {
       game.limits.bottom + (game.height - game.limits.bottom) / 2 + 14 / 2;
     ctx.font = "14px Arial";
     ctx.fillStyle = "#FFFFFF";
-    var info = "Lives: " + game.player.lives;
+    let info = "Lives: " + game.player.lives;
     ctx.textAlign = "left";
     ctx.fillText(info, game.limits.left, textYpos);
     info = "Score: " + game.player.score + ", Level: " + game.level;

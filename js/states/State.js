@@ -1,5 +1,5 @@
 import { controls } from "../controls.js";
-import { LevelIntroState } from "./LevelIntroState.js";
+import { CountState } from "./CountState.js";
 
 export class State {
   type;
@@ -31,6 +31,6 @@ export class State {
     game.level = 1;
     game.player.score = 0;
     game.player.lives = 3;
-    game.moveToState(new LevelIntroState(game.level));
+    game.moveToState(new CountState(game.level));
   }
 }

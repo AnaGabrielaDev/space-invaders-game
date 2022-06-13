@@ -15,23 +15,23 @@ export class Game {
   mouseXPosition;
 
   initialConfig = {
-    bombRate: 0.05,
-    bombMinVelocity: 75,
-    bombMaxVelocity: 75,
-    invaderInitialVelocity: 25,
-    invaderAcceleration: 0,
-    invaderDropDistance: 20,
-    rocketVelocity: 180,
-    rocketMaxFireRate: 2,
+    fireAlienRate: 0.05,
+    fireAlienMinVelocity: 75,
+    fireAlienMaxVelocity: 75,
+    alienInitialVelocity: 25,
+    alienAcceleration: 0,
+    alienDropDistance: 20,
+    fireVelocity: 180,
+    fireMaxFireRate: 2,
     gameWidth: 400,
     gameHeight: 300,
     fps: 50,
     debugMode: false,
-    invaderRanks: 5,
-    invaderFiles: 10,
-    shipSpeed: 120,
+    alienRanks: 5,
+    alienFiles: 10,
+    cannonSpeed: 120,
     levelDifficultyMultiplier: 0.2,
-    pointsPerInvader: 5,
+    pointsPerAlien: 5,
     limitLevelIncrease: 25,
   };
 
@@ -120,19 +120,15 @@ export class Game {
   }
 
   mouseUp(button) {
-    if (button === 0)
-      this.leftButton = false;
+    if (button === 0) this.leftButton = false;
   }
 
   mouseDown(button) {
-    if (button === 0)
-      this.leftButton = true;
+    if (button === 0) this.leftButton = true;
   }
 
   moveMouse(position, isStopped) {
-    if (isStopped)
-      this.mouseXPosition = false;
-    else
-      this.mouseXPosition = position;
+    if (isStopped) this.mouseXPosition = false;
+    else this.mouseXPosition = position;
   }
 }

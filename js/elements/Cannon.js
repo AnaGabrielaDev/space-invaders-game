@@ -1,4 +1,4 @@
-export class Ship {
+export class Cannon {
   x;
   y;
   image;

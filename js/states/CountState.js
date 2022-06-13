@@ -1,6 +1,6 @@
 import { PlayState } from "./PlayState.js";
 
-export class LevelIntroState {
+export class CountState {
   level;
   countdown;
   countdownMessage;
@@ -18,7 +18,11 @@ export class LevelIntroState {
     context.fillStyle = "#FFFFFF";
     context.textBaseline = "middle";
     context.textAlign = "center";
-    context.fillText("Level " + this.level, game.width / 2, game.height / 2 - 18);
+    context.fillText(
+      "Level " + this.level,
+      game.width / 2,
+      game.height / 2 - 18
+    );
     context.font = "24px Arial";
     context.fillText(
       "Ready in " + this.countdownMessage,

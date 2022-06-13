@@ -1,4 +1,4 @@
-export class Invader {
+export class Alien {
   x;
   y;
   rank;
