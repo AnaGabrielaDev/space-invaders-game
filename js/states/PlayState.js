@@ -120,21 +120,21 @@ export class PlayState {
 
   update(game, dt) {
     if (
-      game.pressedKeys[controls.KEY_LEFT] ||
-      game.pressedKeys[controls.KEY_A]
+      game.teclasPressionadas[controls.KEY_LEFT] ||
+      game.teclasPressionadas[controls.KEY_A]
     ) {
       this.cannon.x -= this.velCanhao * dt;
     }
     if (
-      game.pressedKeys[controls.KEY_RIGHT] ||
-      game.pressedKeys[controls.KEY_D]
+      game.teclasPressionadas[controls.KEY_RIGHT] ||
+      game.teclasPressionadas[controls.KEY_D]
     ) {
       this.cannon.x += this.velCanhao * dt;
     }
     if (
-      game.pressedKeys[controls.KEY_SPACE] ||
-      game.pressedKeys[controls.KEY_W] ||
-      game.pressedKeys[controls.KEY_TOP] ||
+      game.teclasPressionadas[controls.KEY_SPACE] ||
+      game.teclasPressionadas[controls.KEY_W] ||
+      game.teclasPressionadas[controls.KEY_TOP] ||
       game.leftButton
     ) {
       this.sendFire();

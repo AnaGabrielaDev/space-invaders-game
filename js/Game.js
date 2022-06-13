@@ -9,8 +9,8 @@ export class Game {
   player;
   delta;
   intervalId;
-  stateStack = [];
-  pressedKeys = [];
+  estado = [];
+  teclasPressionadas = [];
   leftButton;
   mouseXPosition;
 
@@ -62,21 +62,19 @@ export class Game {
   moveToState(state) {
     if (this.currentState() && this.currentState().leave) {
       this.currentState().leave(this);
-      this.stateStack.pop();
+      this.estado.pop();
     }
 
     if (state.enter) {
       state.enter(this);
     }
 
-    this.stateStack.pop();
-    this.stateStack.push(state);
+    this.estado.pop();
+    this.estado.push(state);
   }
 
   currentState() {
-    return this.stateStack.length > 0
-      ? this.stateStack[this.stateStack.length - 1]
-      : null;
+    return this.estado.length > 0 ? this.estado[this.estado.length - 1] : null;
   }
 
   pushState(state) {
@@ -85,7 +83,7 @@ export class Game {
       state.enter(this);
     }
     //  setar o estado atual
-    this.stateStack.push(state);
+    this.estado.push(state);
   }
 
   popState() {
@@ -95,7 +93,7 @@ export class Game {
       this.currentState().leave(this);
     }
 
-    this.stateStack.pop();
+    this.estado.pop();
   }
 
   stop() {
@@ -103,14 +101,14 @@ export class Game {
   }
 
   keyUp(keyCode) {
-    delete this.pressedKeys[keyCode];
+    delete this.teclasPressionadas[keyCode];
     if (this.currentState() && this.currentState().keyUp) {
       this.currentState().keyUp(this, keyCode);
     }
   }
 
   keyDown(keyCode) {
-    this.pressedKeys[keyCode] = true;
+    this.teclasPressionadas[keyCode] = true;
 
     if (this.currentState() && this.currentState().keyDown) {
       this.currentState().keyDown(this, keyCode);

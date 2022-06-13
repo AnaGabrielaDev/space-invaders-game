@@ -40,14 +40,14 @@ nameField.addEventListener("keypress", (event) => {
 });
 
 function saveName() {
-  if (nameField.value.length === 4) {
+  if (nameField.value.length === 3) {
     const username = nameField.value.trim().toUpperCase();
     users.push(username);
     myStorage.setItem("nameField", JSON.stringify(users));
 
     window.location.replace(`game.html?name=${username}`);
   } else {
-    alert("Seu nome de usuário precisa possuir 4 letras!");
+    alert("Seu nome de usuário precisa possuir 3 letras!");
   }
 }
 
