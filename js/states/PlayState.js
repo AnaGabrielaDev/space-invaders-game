@@ -68,8 +68,9 @@ export class PlayState {
       levelMultiplier * this.config.fireAlienMaxVelocity;
     this.fireMaxFireRate = this.config.fireMaxFireRate + 0.4 * limitLevel;
 
-    const ranks = this.config.alienRanks + 0.1 * limitLevel;
-    const files = this.config.alienFiles + 0.2 * limitLevel;
+    //adicionar os aliens por nivel
+    const ranks = this.config.alienRanks + 0.5 * limitLevel;
+    const files = this.config.alienFiles + 0.5 * limitLevel;
     const aliens = [];
     for (let rank = 0; rank < ranks; rank++) {
       for (let file = 0; file < files; file++) {
@@ -231,7 +232,7 @@ export class PlayState {
           alienHitSfx.play();
           this.fires.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerAlien;
+          game.player.score += this.config.pointsPerAlien + game.level;
           break;
         }
       }

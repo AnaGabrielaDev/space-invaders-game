@@ -26,12 +26,11 @@ export class Game {
     gameWidth: 400,
     gameHeight: 300,
     fps: 50,
-    debugMode: false,
-    alienRanks: 5,
-    alienFiles: 10,
+    alienRanks: 2,
+    alienFiles: 4,
     cannonSpeed: 120,
     levelDifficultyMultiplier: 0.2,
-    pointsPerAlien: 5,
+    pointsPerAlien: 1,
     limitLevelIncrease: 25,
   };
 
