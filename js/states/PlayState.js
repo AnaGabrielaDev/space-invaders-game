@@ -116,19 +116,27 @@ export class PlayState {
     if (keyCode == controls.KEY_SPACE) {
       this.sendFire();
     }
-    if (keyCode == 80) {
-      game.pushState(new PauseState());
-    }
   }
 
   update(game, dt) {
-    if (game.pressedKeys[controls.KEY_LEFT]) {
+    if (
+      game.pressedKeys[controls.KEY_LEFT] ||
+      game.pressedKeys[controls.KEY_A]
+    ) {
       this.cannon.x -= this.cannonSpeed * dt;
     }
-    if (game.pressedKeys[controls.KEY_RIGHT]) {
+    if (
+      game.pressedKeys[controls.KEY_RIGHT] ||
+      game.pressedKeys[controls.KEY_D]
+    ) {
       this.cannon.x += this.cannonSpeed * dt;
     }
-    if (game.pressedKeys[controls.KEY_SPACE] || game.leftButton) {
+    if (
+      game.pressedKeys[controls.KEY_SPACE] ||
+      game.pressedKeys[controls.KEY_W] ||
+      game.pressedKeys[controls.KEY_TOP] ||
+      game.leftButton
+    ) {
       this.sendFire();
     }
     if (game.mouseXPosition) {

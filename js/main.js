@@ -17,15 +17,12 @@ function inicialize() {
   phaseMusic.volume = 0.2;
 
   window.addEventListener("keydown", function keydown(e) {
-    let keycode = e.which || window.event.keycode;
-    if (keycode == 37 || keycode == 39 || keycode == 32) {
-      e.preventDefault();
-    }
+    const keycode = e.which || window.event.keycode;
     game.keyDown(keycode);
   });
 
   window.addEventListener("keyup", function keydown(e) {
-    let keycode = e.which || window.event.keycode;
+    const keycode = e.which || window.event.keycode;
     game.keyUp(keycode);
   });
 
