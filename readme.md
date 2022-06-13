@@ -50,3 +50,7 @@ Inicie o servidor
 - [Space Invaders](https://en.wikipedia.org/wiki/Space_Invaders)
 - [Musica Intro](https://www.youtube.com/watch?v=9aKIkh4gfqs&ab_channel=CharlieAxlTebbutt)
 - [Musica Fundo](https://www.youtube.com/watch?v=ftBS1JZQDjA&feature=youtu.be&ab_channel=TOMZM15)
+- [Som de vitória, derrota e dano da nave](https://mixkit.co/)
+- [Som de de dano do alien](https://www.youtube.com/watch?v=tWhQl3mPLq4&t=3s&ab_channel=DavidParrott)
+
+- [Imagem canhão]() Criada por [@Victor Kauan](https://github.com/victorkauan)
