@@ -7,7 +7,7 @@ export class State {
     this.type = stateType;
   }
   enter(game) {}
-  draw(game, dt, context) {
+  draw(game, _dt, context) {
     if (this.type !== "initial") return;
 
     context.clearRect(0, 0, game.width, game.height);
@@ -20,7 +20,7 @@ export class State {
     context.font = "16px Arial";
 
     context.fillText(
-      "Press 'Space' to start.",
+      "Aperte espaço para iniciar!",
       game.width / 2,
       game.height / 2 + 20
     );

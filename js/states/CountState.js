@@ -11,7 +11,7 @@ export class CountState {
     this.countdownMessage = "3";
   }
 
-  draw(game, dt, context) {
+  draw(game, _dt, context) {
     context.clearRect(0, 0, game.width, game.height);
 
     context.font = "700 36px Arial";
@@ -19,13 +19,13 @@ export class CountState {
     context.textBaseline = "middle";
     context.textAlign = "center";
     context.fillText(
-      "Level " + this.level,
+      "Nivel " + this.level,
       game.width / 2,
       game.height / 2 - 18
     );
     context.font = "24px Arial";
     context.fillText(
-      "Ready in " + this.countdownMessage,
+      "Começando em... " + this.countdownMessage,
       game.width / 2,
       game.height / 2 + 18
     );
@@ -44,7 +44,7 @@ export class CountState {
     if (this.countdown <= 0) {
       const phaseOst = document.getElementById("phaseOst");
       phaseOst.volume = 0.2;
-      game.moveToState(new PlayState(game.initialConfig, this.level));
+      game.moveToState(new PlayState(game.configInicial, this.level));
     }
   }
 }

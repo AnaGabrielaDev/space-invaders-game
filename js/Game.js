@@ -14,24 +14,24 @@ export class Game {
   leftButton;
   mouseXPosition;
 
-  initialConfig = {
-    fireAlienRate: 0.05,
-    fireAlienMinVelocity: 75,
-    fireAlienMaxVelocity: 75,
-    alienInitialVelocity: 25,
-    alienAcceleration: 0,
-    alienDropDistance: 20,
-    fireVelocity: 180,
-    fireMaxFireRate: 2,
+  configInicial = {
+    tiroAlienRate: 0.05,
+    tiroAlienMinVel: 75,
+    tiroAlienMaxVel: 75,
+    alienVelInicial: 25,
+    alienAceleracao: 0,
+    alienDropDistancia: 20,
+    tiroVelocidade: 180,
+    tiroVelMax: 2,
     gameWidth: 400,
     gameHeight: 300,
     fps: 50,
-    alienRanks: 2,
-    alienFiles: 4,
-    cannonSpeed: 120,
-    levelDifficultyMultiplier: 0.2,
-    pointsPerAlien: 1,
-    limitLevelIncrease: 25,
+    alienFileiras: 2,
+    alienColunas: 4,
+    velCanhao: 120,
+    dificuldadePorNivel: 0.2,
+    pontosPorAlien: 1,
+    limiteNivel: 25,
   };
 
   constructor(container) {
@@ -40,12 +40,12 @@ export class Game {
     this.height = container.height;
 
     this.limits = {
-      left: container.width / 2 - this.initialConfig.gameWidth / 2,
-      right: container.width / 2 + this.initialConfig.gameWidth / 2,
-      top: container.height / 2 - this.initialConfig.gameHeight / 2,
-      bottom: container.height / 2 + this.initialConfig.gameHeight / 2,
+      left: container.width / 2 - this.configInicial.gameWidth / 2,
+      right: container.width / 2 + this.configInicial.gameWidth / 2,
+      top: container.height / 2 - this.configInicial.gameHeight / 2,
+      bottom: container.height / 2 + this.configInicial.gameHeight / 2,
     };
-    this.delta = 1 / this.initialConfig.fps;
+    this.delta = 1 / this.configInicial.fps;
   }
 
   start(name, callback) {
@@ -55,7 +55,7 @@ export class Game {
 
     this.intervalId = setInterval(
       () => callback(this),
-      1000 / this.initialConfig.fps
+      1000 / this.configInicial.fps
     );
   }
 

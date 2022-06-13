@@ -49,23 +49,23 @@ export class GameOverState {
 
     if (this.brokenRecord) {
       ctx.fillText(
-        `You broke the record!!! *o*`,
+        `Você quebrou o recorde!!! *o*`,
         game.width / 2,
         game.height / 2 - 10
       );
     } else {
-      ctx.fillText(`You lost!!! :(`, game.width / 2, game.height / 2 - 10);
+      ctx.fillText(`Você perdeu! :(`, game.width / 2, game.height / 2 - 10);
     }
 
     ctx.fillText(
-      `You scored ${game.player.score} and reached level ${game.level}`,
+      `Você fez ${game.player.score} pontos e atingiu o nível ${game.level}`,
       game.width / 2,
       game.height / 2 + 20
     );
 
     ctx.font = "16px Arial";
     ctx.fillText(
-      "Press any key to play again or 'Space' to select another player.",
+      "Aperte qualquer tecla para jogar novamente ou espaço para selecionar outro jogador!",
       game.width / 2,
       game.height / 2 + 50
     );

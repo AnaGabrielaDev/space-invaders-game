@@ -49,28 +49,28 @@ export class PlayState {
     this.alienCurrentDropDistance = 0;
     this.aliensAreDropping = false;
 
-    const levelMultiplier = this.level * this.config.levelDifficultyMultiplier;
+    const levelMultiplier = this.level * this.config.dificuldadePorNivel;
     const limitLevel =
-      this.level < this.config.limitLevelIncrease
+      this.level < this.config.limiteNivel
         ? this.level
-        : this.config.limitLevelIncrease;
-    this.cannonSpeed = this.config.cannonSpeed;
-    this.alienInitialVelocity =
-      this.config.alienInitialVelocity +
-      1.5 * (levelMultiplier * this.config.alienInitialVelocity);
-    this.fireAlienRate =
-      this.config.fireAlienRate + levelMultiplier * this.config.fireAlienRate;
-    this.fireAlienMinVelocity =
-      this.config.fireAlienMinVelocity +
-      levelMultiplier * this.config.fireAlienMinVelocity;
-    this.fireAlienMaxVelocity =
-      this.config.fireAlienMaxVelocity +
-      levelMultiplier * this.config.fireAlienMaxVelocity;
-    this.fireMaxFireRate = this.config.fireMaxFireRate + 0.4 * limitLevel;
+        : this.config.limiteNivel;
+    this.velCanhao = this.config.velCanhao;
+    this.alienVelInicial =
+      this.config.alienVelInicial +
+      1.5 * (levelMultiplier * this.config.alienVelInicial);
+    this.tiroAlienRate =
+      this.config.tiroAlienRate + levelMultiplier * this.config.tiroAlienRate;
+    this.tiroAlienMinVel =
+      this.config.tiroAlienMinVel +
+      levelMultiplier * this.config.tiroAlienMinVel;
+    this.tiroAlienMaxVel =
+      this.config.tiroAlienMaxVel +
+      levelMultiplier * this.config.tiroAlienMaxVel;
+    this.tiroVelMax = this.config.tiroVelMax + 0.4 * limitLevel;
 
     //adicionar os aliens por nivel
-    const ranks = this.config.alienRanks + 0.5 * limitLevel;
-    const files = this.config.alienFiles + 0.5 * limitLevel;
+    const ranks = this.config.alienFileiras + 0.5 * limitLevel;
+    const files = this.config.alienColunas + 0.5 * limitLevel;
     const aliens = [];
     for (let rank = 0; rank < ranks; rank++) {
       for (let file = 0; file < files; file++) {
@@ -87,8 +87,8 @@ export class PlayState {
       }
     }
     this.aliens = aliens;
-    this.alienCurrentVelocity = this.alienInitialVelocity;
-    this.alienVelocity = { x: -this.alienInitialVelocity, y: 0 };
+    this.alienCurrentVelocity = this.alienVelInicial;
+    this.alienVelocity = { x: -this.alienVelInicial, y: 0 };
     this.alienNextVelocity = null;
   }
 
@@ -97,14 +97,14 @@ export class PlayState {
     fireSfx.volume = 0.1;
     if (
       this.lastFireTime === null ||
-      new Date().valueOf() - this.lastFireTime > 1000 / this.fireMaxFireRate
+      new Date().valueOf() - this.lastFireTime > 1000 / this.tiroVelMax
     ) {
       fireSfx.play();
       this.fires.push(
         new Fire(
           this.cannon.x,
           this.cannon.y - 12,
-          this.config.fireVelocity,
+          this.config.tiroVelocidade,
           this.images.fire
         )
       );
@@ -123,13 +123,13 @@ export class PlayState {
       game.pressedKeys[controls.KEY_LEFT] ||
       game.pressedKeys[controls.KEY_A]
     ) {
-      this.cannon.x -= this.cannonSpeed * dt;
+      this.cannon.x -= this.velCanhao * dt;
     }
     if (
       game.pressedKeys[controls.KEY_RIGHT] ||
       game.pressedKeys[controls.KEY_D]
     ) {
-      this.cannon.x += this.cannonSpeed * dt;
+      this.cannon.x += this.velCanhao * dt;
     }
     if (
       game.pressedKeys[controls.KEY_SPACE] ||
@@ -197,20 +197,20 @@ export class PlayState {
     // aumentar velocidade aliens
     if (this.aliensAreDropping) {
       this.alienCurrentDropDistance += this.alienVelocity.y * dt;
-      if (this.alienCurrentDropDistance >= this.config.alienDropDistance) {
+      if (this.alienCurrentDropDistance >= this.config.alienDropDistancia) {
         this.aliensAreDropping = false;
         this.alienVelocity = this.alienNextVelocity;
         this.alienCurrentDropDistance = 0;
       }
     }
     if (hitLeft) {
-      this.alienCurrentVelocity += this.config.alienAcceleration;
+      this.alienCurrentVelocity += this.config.alienAceleracao;
       this.alienVelocity = { x: 0, y: this.alienCurrentVelocity };
       this.aliensAreDropping = true;
       this.alienNextVelocity = { x: this.alienCurrentVelocity, y: 0 };
     }
     if (hitRight) {
-      this.alienCurrentVelocity += this.config.alienAcceleration;
+      this.alienCurrentVelocity += this.config.alienAceleracao;
       this.alienVelocity = { x: 0, y: this.alienCurrentVelocity };
       this.aliensAreDropping = true;
       this.alienNextVelocity = { x: -this.alienCurrentVelocity, y: 0 };
@@ -240,7 +240,7 @@ export class PlayState {
           alienHitSfx.play();
           this.fires.splice(j--, 1);
           bang = true;
-          game.player.score += this.config.pointsPerAlien + game.level;
+          game.player.score += this.config.pontosPorAlien + game.level;
           break;
         }
       }
@@ -259,18 +259,17 @@ export class PlayState {
       }
     }
 
-    for (let i = 0; i < this.config.alienFiles; i++) {
+    for (let i = 0; i < this.config.alienColunas; i++) {
       let alien = frontRankAliens[i];
       if (!alien) continue;
-      let chance = this.fireAlienRate * dt;
+      let chance = this.tiroAlienRate * dt;
       if (chance > Math.random()) {
         this.fireAliens.push(
           new FireAlien(
             alien.x,
             alien.y + alien.height / 2,
-            this.fireAlienMinVelocity +
-              Math.random() *
-                (this.fireAlienMaxVelocity - this.fireAlienMinVelocity)
+            this.tiroAlienMinVel +
+              Math.random() * (this.tiroAlienMaxVel - this.tiroAlienMinVel)
           )
         );
       }
@@ -374,10 +373,10 @@ export class PlayState {
       game.limits.bottom + (game.height - game.limits.bottom) / 2 + 14 / 2;
     ctx.font = "14px Arial";
     ctx.fillStyle = "#FFFFFF";
-    let info = "Lives: " + game.player.lives;
+    let info = "Vidas: " + game.player.lives;
     ctx.textAlign = "left";
     ctx.fillText(info, game.limits.left, textYpos);
-    info = "Score: " + game.player.score + ", Level: " + game.level;
+    info = "Pontos: " + game.player.score + ", Nivel: " + game.level;
     ctx.textAlign = "right";
     ctx.fillText(info, game.limits.right, textYpos);
 
